@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Echo Valley</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="tab_text_1">Normal</string>
+    <string name="tab_text_2">Optimized</string>
+
+    <string-array name="search_engine">
+        <item>google</item>
+        <item>baidu</item>
+        <item>bing</item>
+        <item>360</item>
+        <item>toutiao</item>
+        <item>sougou</item>
+        <item>petal</item>
+    </string-array>
+</resources>

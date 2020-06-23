@@ -1,0 +1,3 @@
+rootProject.name='Echo Valley'
+include ':app'
+include ':arch'
