@@ -8,10 +8,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Constructor;
+import com.sxenon.echovalley.arch.adapter.IAdapter;
 
-public abstract class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHolder> {
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewViewHolder> implements IAdapter<T> {
     private final SparseArray<RecyclerViewItemViewTypeEntity> mItemViewTypeEntryArray;
+    private final Object mLock = new Object();
+    private List<T> mValues = new ArrayList<>();
 
     public RecyclerViewAdapter(SparseArray<RecyclerViewItemViewTypeEntity> itemViewTypeEntryArray) {
         this.mItemViewTypeEntryArray = itemViewTypeEntryArray;
@@ -43,4 +51,124 @@ public abstract class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
      */
     @Override
     public abstract int getItemViewType(int position);
+
+    @Override
+    public void addItem(int position, T value) {
+        synchronized (mLock) {
+            if (position > mValues.size() || position < 0 || value == null) {
+                return;
+            }
+            mValues.add(position, value);
+            notifyItemInserted(position);
+        }
+    }
+
+    @Override
+    public void addItems(int position, Collection<? extends T> values) {
+        synchronized (mLock) {
+            if (position > mValues.size() || position < 0 || values == null) {
+                return;
+            }
+            mValues.addAll(position, values);
+            notifyItemRangeInserted(position, values.size());
+        }
+    }
+
+    @Override
+    public void removeItems(Collection<? extends T> values) {
+        synchronized (mLock) {
+            mValues.removeAll(values);
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void removeItem(int position) {
+        synchronized (mLock) {
+            if (position >= mValues.size() || position < 0) {
+                return;
+            }
+            mValues.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    @Override
+    public void removeItem(T value) {
+        synchronized (mLock) {
+            int position = mValues.indexOf(value);
+            if (position >= 0) {
+                mValues.remove(position);
+                if(mValues.size() == 0){
+                    notifyDataSetChanged();
+                } else {
+                    notifyItemRemoved(position);
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<T> getValues() {
+        return mValues;
+    }
+
+    @Override
+    public T getValue(int position) {
+        synchronized (mLock) {
+            if (position < 0 || position >= mValues.size()) {
+                return null;
+            }
+            return mValues.get(position);
+        }
+    }
+
+    @Override
+    public void resetAllItems(List<T> values) {
+        synchronized (mLock) {
+            if (values == null) {
+                mValues.clear();
+            } else {
+                mValues = values;
+            }
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void setItem(int position, T value) {
+        synchronized (mLock) {
+            if (value == null || position >= mValues.size() || position < 0) {
+                return;
+            }
+            mValues.set(position, value);
+            notifyItemChanged(position);
+        }
+    }
+
+    @Override
+    public void invalidate(T oldValue, T newValue) {
+        setItem(mValues.indexOf(oldValue), newValue);
+    }
+
+    @Override
+    public void moveItem(int fromPosition, int toPosition) {
+        synchronized (mLock) {
+            if (fromPosition < 0 || fromPosition >= mValues.size() || toPosition < 0 || toPosition >= mValues.size()) {
+                return;
+            }
+            if (fromPosition == toPosition) {
+                return;
+            }
+            Collections.swap(mValues, fromPosition, toPosition);
+            notifyItemMoved(fromPosition, toPosition);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        synchronized (mLock){
+            return mValues.size();
+        }
+    }
 }
