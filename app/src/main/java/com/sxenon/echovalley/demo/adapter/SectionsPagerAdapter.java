@@ -1,4 +1,4 @@
-package com.sxenon.echovalley.demo;
+package com.sxenon.echovalley.demo.adapter;
 
 import android.content.Context;
 
@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.sxenon.echovalley.R;
-import com.sxenon.echovalley.demo.rv.NormalFragment;
-import com.sxenon.echovalley.demo.rv.OptimizedFragment;
+import com.sxenon.echovalley.demo.adapter.NormalFragment;
+import com.sxenon.echovalley.demo.adapter.OptimizedFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

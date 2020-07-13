@@ -1,4 +1,4 @@
-package com.sxenon.echovalley.demo.rv;
+package com.sxenon.echovalley.demo.select;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,24 +21,24 @@ public class NormalFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment, container, false);
+        return inflater.inflate(R.layout.demo_adapter_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable final Bundle savedInstanceState) {
         searchEngines = getResources().getStringArray(R.array.search_engine);
 
-        rvNormal = view.findViewById(R.id.main_rv);
+        rvNormal = view.findViewById(R.id.demo_adapter_rv);
         rvNormal.setLayoutManager(new LinearLayoutManager(getContext()));
         rvNormal.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 if (viewType == 0){
-                    View itemView = LayoutInflater.from(getContext()).inflate(R.layout.main_even_item,parent,false);
+                    View itemView = LayoutInflater.from(getContext()).inflate(R.layout.demo_adapter_even_item,parent,false);
                     return new EvenViewHolder(itemView);
                 }
-                View itemView = LayoutInflater.from(getContext()).inflate(R.layout.main_odd_item,parent,false);
+                View itemView = LayoutInflater.from(getContext()).inflate(R.layout.demo_adapter_odd_item,parent,false);
                 return new OddViewHolder(itemView);
             }
 

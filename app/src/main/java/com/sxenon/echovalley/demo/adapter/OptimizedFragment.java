@@ -1,4 +1,4 @@
-package com.sxenon.echovalley.demo.rv;
+package com.sxenon.echovalley.demo.adapter;
 
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -25,19 +25,19 @@ public class OptimizedFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment, container, false);
+        return inflater.inflate(R.layout.demo_adapter_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         searchEngines = getResources().getStringArray(R.array.search_engine);
 
-        rvOptimized = view.findViewById(R.id.main_rv);
+        rvOptimized = view.findViewById(R.id.demo_adapter_rv);
         rvOptimized.setLayoutManager(new LinearLayoutManager(getContext()));
         SparseArray<RecyclerViewItemViewTypeEntity> entitySparseArray = new SparseArray<>();
-        entitySparseArray.put(0,new RecyclerViewItemViewTypeEntity(R.layout.main_even_item,EvenViewHolder.class));
-        entitySparseArray.put(1,new RecyclerViewItemViewTypeEntity(R.layout.main_odd_item,OddViewHolder.class));
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(entitySparseArray) {
+        entitySparseArray.put(0,new RecyclerViewItemViewTypeEntity(R.layout.demo_adapter_even_item,EvenViewHolder.class));
+        entitySparseArray.put(1,new RecyclerViewItemViewTypeEntity(R.layout.demo_adapter_odd_item,OddViewHolder.class));
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter<String>(entitySparseArray) {
 
             @Override
             public void onBindViewHolder(@NonNull RecyclerViewViewHolder holder, int position) {
