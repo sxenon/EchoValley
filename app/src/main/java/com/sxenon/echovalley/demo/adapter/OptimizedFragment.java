@@ -32,7 +32,7 @@ public class OptimizedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         searchEngines = getResources().getStringArray(R.array.search_engine);
 
-        rvOptimized = view.findViewById(R.id.demo_adapter_rv);
+        rvOptimized = view.findViewById(R.id.demo_select_rv);
         rvOptimized.setLayoutManager(new LinearLayoutManager(getContext()));
         SparseArray<RecyclerViewItemViewTypeEntity> entitySparseArray = new SparseArray<>();
         entitySparseArray.put(0,new RecyclerViewItemViewTypeEntity(R.layout.demo_adapter_even_item,EvenViewHolder.class));

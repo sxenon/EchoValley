@@ -28,7 +28,7 @@ public class NormalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable final Bundle savedInstanceState) {
         searchEngines = getResources().getStringArray(R.array.search_engine);
 
-        rvNormal = view.findViewById(R.id.demo_adapter_rv);
+        rvNormal = view.findViewById(R.id.demo_select_rv);
         rvNormal.setLayoutManager(new LinearLayoutManager(getContext()));
         rvNormal.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             @NonNull
