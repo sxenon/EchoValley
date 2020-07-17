@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class RecyclerViewAdapterSelectOptionChangeNotifier<T> implements IOptionChangeNotifier<T> {
+public class RecyclerViewAdapterSelectOptionChangeNotifier<T> implements IOptionChangeNotifier {
     private final RecyclerViewAdapter<T> adapter;
 
     public RecyclerViewAdapterSelectOptionChangeNotifier(RecyclerViewAdapter<T> adapter) {

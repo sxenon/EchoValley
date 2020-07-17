@@ -21,12 +21,7 @@ import com.sxenon.echovalley.arch.select.strategy.ISelectStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * SelectOptionStrategyImpl
- * Created by Sui on 2017/8/29.
- */
-
-public class OptionChangeEventListenerImpl<T> implements IOptionChangeEventListener<T> {
+public class OptionChangeEventListenerImpl implements IOptionChangeEventListener {
     private final ISelectStrategy innerSelectStrategy;
 
     public OptionChangeEventListenerImpl(ISelectStrategy innerSelectStrategy) {
@@ -34,7 +29,7 @@ public class OptionChangeEventListenerImpl<T> implements IOptionChangeEventListe
     }
 
     @Override
-    public void onOptionSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier<T> notifier) {
+    public void onOptionSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier notifier) {
         if (selectedFlags.get(position)) {
             return;
         }
@@ -44,7 +39,7 @@ public class OptionChangeEventListenerImpl<T> implements IOptionChangeEventListe
     }
 
     @Override
-    public void onOptionUnSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier<T> notifier) {
+    public void onOptionUnSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier notifier) {
         if (!selectedFlags.get(position)) {
             return;
         }
@@ -54,38 +49,34 @@ public class OptionChangeEventListenerImpl<T> implements IOptionChangeEventListe
     }
 
     @Override
-    public void onAllOptionsReversed(List<Boolean> selectedFlags, IOptionChangeNotifier<T> notifier) {
+    public void onAllOptionsReversed(List<Boolean> selectedFlags, IOptionChangeNotifier notifier) {
         List<Boolean> oldSelectedFlags = new ArrayList<>(selectedFlags);
         innerSelectStrategy.onAllOptionsReversed(selectedFlags);
         notifier.notifySelectChange(oldSelectedFlags, selectedFlags);
     }
 
     @Override
-    public void onAllOptionsSelected(List<Boolean> selectedFlags, IOptionChangeNotifier<T> notifier) {
+    public void onAllOptionsSelected(List<Boolean> selectedFlags, IOptionChangeNotifier notifier) {
         List<Boolean> oldSelectedFlags = new ArrayList<>(selectedFlags);
         innerSelectStrategy.onAllOptionsSelected(selectedFlags);
         notifier.notifySelectChange(oldSelectedFlags, selectedFlags);
     }
 
     @Override
-    public void onAllOptionsUnSelected(List<Boolean> selectedFlags, IOptionChangeNotifier<T> notifier) {
+    public void onAllOptionsUnSelected(List<Boolean> selectedFlags, IOptionChangeNotifier notifier) {
         List<Boolean> oldSelectedFlags = new ArrayList<>(selectedFlags);
         innerSelectStrategy.onAllOptionsUnSelected(selectedFlags);
         notifier.notifySelectChange(oldSelectedFlags, selectedFlags);
     }
 
     @Override
-    public void onOptionRemoved(List<Boolean> selectedFlags, int position, IOptionChangeNotifier<T> notifier) {
+    public void onOptionRemoved(List<Boolean> selectedFlags, int position, IOptionChangeNotifier notifier) {
         selectedFlags.remove(position);
         notifier.onOptionRemoved(position);
     }
 
     @Override
-    public void onSelectedOptionsRemoved(final List<Boolean> selectedFlags, IOptionChangeNotifier<T> notifier) {
+    public void onSelectedOptionsRemoved(final List<Boolean> selectedFlags, IOptionChangeNotifier notifier) {
         notifier.onSelectedOptionsRemoved(selectedFlags);
-    }
-
-    public ISelectStrategy getInnerSelectStrategy() {
-        return innerSelectStrategy;
     }
 }

@@ -18,23 +18,18 @@ package com.sxenon.echovalley.arch.select;
 
 import java.util.List;
 
-/**
- * ISelectOptionStrategy
- * Created by Sui on 2017/8/29.
- */
+public interface IOptionChangeEventListener {
+    void onOptionSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier notifier);
 
-public interface IOptionChangeEventListener<T> {
-    void onOptionSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier<T> notifier);
+    void onOptionUnSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier notifier);
 
-    void onOptionUnSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier<T> notifier);
+    void onAllOptionsReversed(List<Boolean> selectedFlags, IOptionChangeNotifier notifier);
 
-    void onAllOptionsReversed(List<Boolean> selectedFlags, IOptionChangeNotifier<T> notifier);
+    void onAllOptionsSelected(List<Boolean> selectedFlags, IOptionChangeNotifier notifier);
 
-    void onAllOptionsSelected(List<Boolean> selectedFlags, IOptionChangeNotifier<T> notifier);
+    void onAllOptionsUnSelected(List<Boolean> selectedFlags, IOptionChangeNotifier notifier);
 
-    void onAllOptionsUnSelected(List<Boolean> selectedFlags, IOptionChangeNotifier<T> notifier);
+    void onOptionRemoved(List<Boolean> selectedFlags, int position, IOptionChangeNotifier notifier);
 
-    void onOptionRemoved(List<Boolean> selectedFlags, int position, IOptionChangeNotifier<T> notifier);
-
-    void onSelectedOptionsRemoved(List<Boolean> selectedFlags, IOptionChangeNotifier<T> notifier);
+    void onSelectedOptionsRemoved(List<Boolean> selectedFlags, IOptionChangeNotifier notifier);
 }
