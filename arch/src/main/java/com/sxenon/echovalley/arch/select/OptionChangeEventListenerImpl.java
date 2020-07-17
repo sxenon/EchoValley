@@ -26,10 +26,10 @@ import java.util.List;
  * Created by Sui on 2017/8/29.
  */
 
-public class SelectOptionStrategyImpl<T> implements ISelectOptionStrategy<T> {
+public class OptionChangeEventListenerImpl<T> implements IOptionChangeEventListener<T> {
     private final ISelectStrategy innerSelectStrategy;
 
-    public SelectOptionStrategyImpl(ISelectStrategy innerSelectStrategy) {
+    public OptionChangeEventListenerImpl(ISelectStrategy innerSelectStrategy) {
         this.innerSelectStrategy = innerSelectStrategy;
     }
 

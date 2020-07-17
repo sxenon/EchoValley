@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Sui on 2017/8/29.
  */
 
-public interface ISelectOptionStrategy<T> {
+public interface IOptionChangeEventListener<T> {
     void onOptionSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier<T> notifier);
 
     void onOptionUnSelected(List<Boolean> selectedFlags, int position, IOptionChangeNotifier<T> notifier);
