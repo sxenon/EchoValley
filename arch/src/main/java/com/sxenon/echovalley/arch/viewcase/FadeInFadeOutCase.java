@@ -5,10 +5,6 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.view.View;
 
-/**
- * 淡入淡出动画
- * 所有的重复代码都是犯罪
- */
 public class FadeInFadeOutCase implements IViewCase {
     private View view;
     private float inAlpha = 1.0f;
@@ -19,6 +15,22 @@ public class FadeInFadeOutCase implements IViewCase {
 
     public FadeInFadeOutCase(View view) {
         this.view = view;
+    }
+
+    public void setInAlpha(float inAlpha) {
+        this.inAlpha = inAlpha;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public void setOutAlpha(float outAlpha) {
+        this.outAlpha = outAlpha;
+    }
+
+    public void setTranslationX(int translationX) {
+        this.translationX = translationX;
     }
 
     public void setTranslationY(int translationY) {
