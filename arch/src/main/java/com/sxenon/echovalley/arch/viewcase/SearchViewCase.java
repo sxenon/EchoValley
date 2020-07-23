@@ -1,6 +1,5 @@
-package com.sxenon.echovalley.arch.viewmodule.search;
+package com.sxenon.echovalley.arch.viewcase;
 
-import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,17 +13,15 @@ import com.sxenon.echovalley.arch.Action1;
 import com.sxenon.echovalley.arch.Func1;
 import com.sxenon.echovalley.arch.util.Preconditions;
 
-public class BaseSearchViewModule implements ISearchViewModule {
+public class SearchViewCase {
     private final EditText mEditText;
-    private Func1<CharSequence, Boolean> mSearchAction;
 
-    public BaseSearchViewModule(@NonNull EditText editText, @NonNull Func1<CharSequence, Boolean> searchAction) {
+    public SearchViewCase(@NonNull EditText editText, @NonNull Func1<CharSequence, Boolean> searchAction) {
         this(editText, searchAction, null, null);
     }
 
-    public BaseSearchViewModule(@NonNull EditText editText, @NonNull Func1<CharSequence, Boolean> searchAction, @Nullable View cancelView, @Nullable final Action1<View> onCancel) {
+    public SearchViewCase(@NonNull EditText editText, @NonNull final Func1<CharSequence, Boolean> searchAction, @Nullable View cancelView, @Nullable final Action1<View> onCancel) {
         mEditText = editText;
-        mSearchAction = searchAction;
 
         //IME_ACTION_SEARCH：work when
         mEditText.setInputType(EditorInfo.TYPE_CLASS_TEXT);//or android:singleLine="true" or android:inputType="text"
@@ -32,7 +29,7 @@ public class BaseSearchViewModule implements ISearchViewModule {
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                return actionId == EditorInfo.IME_ACTION_SEARCH && performSearch();
+                return actionId == EditorInfo.IME_ACTION_SEARCH && searchAction.call(mEditText.getText().toString());
             }
         });
 
@@ -46,13 +43,7 @@ public class BaseSearchViewModule implements ISearchViewModule {
         }
     }
 
-    @Override
     public void setKeyword(CharSequence keyword) {
         mEditText.setText(keyword);
     }
-
-    public boolean performSearch() {
-        return mSearchAction.call(mEditText.getText().toString());
-    }
-
 }
