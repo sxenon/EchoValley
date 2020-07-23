@@ -1,5 +1,6 @@
 package com.sxenon.echovalley.arch.adapter.rv;
 
+@SuppressWarnings("rawtypes")
 public class RecyclerViewItemViewTypeEntity {
     private final int resourceId;
     private final Class<? extends RecyclerViewViewHolder> viewHolderClass;

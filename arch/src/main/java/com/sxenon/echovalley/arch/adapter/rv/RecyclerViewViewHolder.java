@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressWarnings("rawtypes")
 public abstract class RecyclerViewViewHolder<T> extends RecyclerView.ViewHolder {
     private final RecyclerViewAdapter adapter;
     private int height, width;

@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewViewHolder> implements IAdapter<T> {
     private final SparseArray<RecyclerViewItemViewTypeEntity> mItemViewTypeEntryArray;
     private final Object mLock = new Object();
