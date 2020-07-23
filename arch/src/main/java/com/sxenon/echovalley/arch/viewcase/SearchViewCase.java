@@ -13,7 +13,7 @@ import com.sxenon.echovalley.arch.Action1;
 import com.sxenon.echovalley.arch.Func1;
 import com.sxenon.echovalley.arch.util.Preconditions;
 
-public class SearchViewCase {
+public class SearchViewCase implements IViewCase{
     private final EditText mEditText;
 
     public SearchViewCase(@NonNull EditText editText, @NonNull Func1<CharSequence, Boolean> searchAction) {
