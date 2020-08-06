@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017  sxenon
+ * Copyright (c) 2018  sxenon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,37 +14,21 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull;
+package com.sxenon.echovalley.arch.viewmodule.pull.single.strategy;
+
+import com.sxenon.echovalley.arch.viewmodule.pull.IPullStrategy;
+import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
 
 /**
- * Empty implement for IPullLayout
- * Created by Sui on 2016/12/27.
+ * ISingleStrategy
+ * Created by Sui on 2017/9/3.
  */
 
-public class DummyPullLayout implements IPullLayout {
+public interface ISingleStrategy<R> extends IPullStrategy {
+    void onSingle(IPullViewModule pullViewHolder, R data, PageInfo pageInfo);
 
-    @Override
-    public void beginPullingDown() {
+    void onEmpty(IPullViewModule pullViewModule, PageInfo pageInfo);
 
-    }
+    void onError(IPullViewModule pullViewModule, Throwable throwable, PageInfo pageInfo);
 
-    @Override
-    public void beginPullingUp() {
-
-    }
-
-    @Override
-    public void endPullingUp() {
-
-    }
-
-    @Override
-    public void endPullingDown() {
-
-    }
-
-    @Override
-    public void setVisibility(int visibility) {
-
-    }
 }
