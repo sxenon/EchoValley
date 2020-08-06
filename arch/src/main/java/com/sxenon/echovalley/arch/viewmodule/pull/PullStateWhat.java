@@ -21,7 +21,7 @@ package com.sxenon.echovalley.arch.viewmodule.pull;
  * Created by Sui on 2017/8/4.
  */
 
-public class PullEventWhat {
+public class PullStateWhat {
     public static final int WHAT_UNINITIALIZED = 1;
     public static final int WHAT_NON_EMPTY = 2;
     public static final int WHAT_EMPTY = 3;

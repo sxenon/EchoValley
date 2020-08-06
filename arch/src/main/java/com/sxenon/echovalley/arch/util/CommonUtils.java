@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017  sxenon
+ * Copyright (c) 2017 sxenon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,27 +14,20 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull;
+package com.sxenon.echovalley.arch.util;
+
+import android.view.View;
 
 /**
- * Strategy pattern
+ * Utils for root library
+ * Created by Sui on 2016/12/24.
  */
 
-public interface IPullStrategy {
-    int PULL_ACTION_DOWN = 1;
-    int PULL_ACTION_UP = 2;
+public class CommonUtils {
 
-    void onPullDown(PageInfo pageInfo);
-
-    void onPullUp(PageInfo pageInfo);
-
-    class PageInfo {
-        public int currentPage;
-        public int tempPage;
-
-        public PageInfo(int currentPage, int tempPage) {
-            this.currentPage = currentPage;
-            this.tempPage = tempPage;
+    public static void setViewVisibility(View view, int visibility) {
+        if (view != null) {
+            view.setVisibility(visibility);
         }
     }
 }

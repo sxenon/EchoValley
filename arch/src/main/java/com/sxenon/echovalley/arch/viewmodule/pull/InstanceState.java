@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017  sxenon
+ * Copyright (c) 2018  sxenon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,15 @@
 
 package com.sxenon.echovalley.arch.viewmodule.pull;
 
+import android.os.Bundle;
+
 /**
- * Strategy pattern
+ * Memento pattern
  */
-
-public interface IPullStrategy {
-    int PULL_ACTION_DOWN = 1;
-    int PULL_ACTION_UP = 2;
-
-    void onPullDown(PageInfo pageInfo);
-
-    void onPullUp(PageInfo pageInfo);
-
-    class PageInfo {
-        public int currentPage;
-        public int tempPage;
-
-        public PageInfo(int currentPage, int tempPage) {
-            this.currentPage = currentPage;
-            this.tempPage = tempPage;
-        }
-    }
+public class InstanceState {
+    public int what;
+    public Object obj;
+    public int arg1;
+    public int arg2;
+    public Bundle data;
 }
