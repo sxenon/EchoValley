@@ -19,11 +19,6 @@ package com.sxenon.echovalley.arch.viewmodule.pull.single;
 import com.sxenon.echovalley.arch.response.ISingleResponseHandler;
 import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
 
-/**
- * FillerViewHolder for single data
- * Created by Sui on 2017/8/19.
- */
-
 public interface ISingleViewModule<R> extends ISingleResponseHandler<R>, IPullViewModule {
 
 }

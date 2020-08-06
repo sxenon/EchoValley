@@ -20,11 +20,6 @@ package com.sxenon.echovalley.arch.viewmodule.pull.list;
 import com.sxenon.echovalley.arch.response.IListResponseHandler;
 import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
 
-/**
- * FillerViewHolder for list data
- * Created by Sui on 2017/8/19.
- */
-
 public interface IListViewModule<R> extends IListResponseHandler<R>, IPullViewModule {
 
 }

@@ -26,11 +26,6 @@ import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.IListStrategy;
 
 import java.util.List;
 
-/**
- * List data implement for FillerViewHolder
- * Created by Sui on 2017/8/19.
- */
-
 public class BaseListViewModule<R, L extends IPullLayout> extends BasePullViewModule<L, IListStrategy<R>> implements IListViewModule<R> {
 
     private IAdapter<R> mAdapter;

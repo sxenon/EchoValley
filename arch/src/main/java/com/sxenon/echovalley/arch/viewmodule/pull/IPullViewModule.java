@@ -19,11 +19,6 @@ package com.sxenon.echovalley.arch.viewmodule.pull;
 import com.sxenon.echovalley.arch.response.IResponseHandler;
 import com.sxenon.echovalley.arch.viewmodule.IViewModule;
 
-/**
- * Interface for FillerViewHolder
- * Created by Sui on 2017/8/4.
- */
-
 public interface IPullViewModule extends IResponseHandler, IViewModule {
     void onEmpty();
 

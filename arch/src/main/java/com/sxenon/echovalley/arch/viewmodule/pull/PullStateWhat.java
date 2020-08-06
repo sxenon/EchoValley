@@ -16,11 +16,6 @@
 
 package com.sxenon.echovalley.arch.viewmodule.pull;
 
-/**
- * Event what for filler
- * Created by Sui on 2017/8/4.
- */
-
 public class PullStateWhat {
     public static final int WHAT_UNINITIALIZED = 1;
     public static final int WHAT_NON_EMPTY = 2;

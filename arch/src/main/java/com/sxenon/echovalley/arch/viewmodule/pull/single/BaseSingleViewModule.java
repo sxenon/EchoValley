@@ -24,11 +24,6 @@ import com.sxenon.echovalley.arch.viewmodule.pull.BasePullViewModule;
 import com.sxenon.echovalley.arch.viewmodule.pull.IPullLayout;
 import com.sxenon.echovalley.arch.viewmodule.pull.single.strategy.ISingleStrategy;
 
-/**
- * Single data implement for FillerViewHolder
- * Created by Sui on 2017/8/19.
- */
-
 public abstract class BaseSingleViewModule<R, L extends IPullLayout> extends BasePullViewModule<L, ISingleStrategy<R>> implements ISingleViewModule<R> {
     private R mData;
 

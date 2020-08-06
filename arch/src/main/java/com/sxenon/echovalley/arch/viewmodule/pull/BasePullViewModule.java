@@ -7,8 +7,6 @@ import com.sxenon.echovalley.arch.util.CommonUtils;
 
 /**
  * Bridge pattern
- * @param <L>
- * @param <S>
  */
 public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullStrategy> implements IPullViewModule {
     private final IPullStrategy.PageInfo pageInfo = new IPullStrategy.PageInfo(-1, -1);
