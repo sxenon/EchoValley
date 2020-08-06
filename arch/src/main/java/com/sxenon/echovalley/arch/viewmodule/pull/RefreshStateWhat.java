@@ -16,25 +16,9 @@
 
 package com.sxenon.echovalley.arch.viewmodule.pull;
 
-/**
- * Strategy pattern
- */
-
-public interface IPullStrategy {
-    int PULL_ACTION_DOWN = 1;
-    int PULL_ACTION_UP = 2;
-
-    void onPullDown(PageInfo pageInfo);
-
-    void onPullUp(PageInfo pageInfo);
-
-    class PageInfo {
-        public int currentPage;
-        public int tempPage;
-
-        public PageInfo(int currentPage, int tempPage) {
-            this.currentPage = currentPage;
-            this.tempPage = tempPage;
-        }
-    }
+public class RefreshStateWhat {
+    public static final int WHAT_UNINITIALIZED = 1;
+    public static final int WHAT_NON_EMPTY = 2;
+    public static final int WHAT_EMPTY = 3;
+    public static final int WHAT_EXCEPTION = 4;
 }

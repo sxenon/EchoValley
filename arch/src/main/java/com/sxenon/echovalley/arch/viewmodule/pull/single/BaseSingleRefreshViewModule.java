@@ -20,11 +20,11 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.sxenon.echovalley.arch.viewmodule.pull.BasePullViewModule;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullLayout;
-import com.sxenon.echovalley.arch.viewmodule.pull.single.strategy.ISingleStrategy;
+import com.sxenon.echovalley.arch.viewmodule.pull.BaseRefreshViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshLayout;
+import com.sxenon.echovalley.arch.viewmodule.pull.single.strategy.ISingleRefreshStrategy;
 
-public abstract class BaseSingleViewModule<R, L extends IPullLayout> extends BasePullViewModule<L, ISingleStrategy<R>> implements ISingleViewModule<R> {
+public abstract class BaseSingleRefreshViewModule<R, L extends IRefreshLayout> extends BaseRefreshViewModule<L, ISingleRefreshStrategy<R>> implements ISingleRefreshViewModule<R> {
     private R mData;
 
     /**
@@ -34,7 +34,7 @@ public abstract class BaseSingleViewModule<R, L extends IPullLayout> extends Bas
      * @param pullLayout       刷新容器
      * @param singleStrategy 分页数据填充策略
      */
-    public BaseSingleViewModule(Context context, L pullLayout, ISingleStrategy<R> singleStrategy) {
+    public BaseSingleRefreshViewModule(Context context, L pullLayout, ISingleRefreshStrategy<R> singleStrategy) {
         super(context, pullLayout, singleStrategy);
     }
 

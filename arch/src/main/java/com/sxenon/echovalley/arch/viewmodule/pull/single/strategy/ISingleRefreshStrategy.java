@@ -16,19 +16,19 @@
 
 package com.sxenon.echovalley.arch.viewmodule.pull.single.strategy;
 
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
 
 /**
  * ISingleStrategy
  * Created by Sui on 2017/9/3.
  */
 
-public interface ISingleStrategy<R> extends IPullStrategy {
-    void onSingle(IPullViewModule pullViewHolder, R data, PageInfo pageInfo);
+public interface ISingleRefreshStrategy<R> extends IRefreshStrategy {
+    void onSingle(IRefreshViewModule pullViewHolder, R data, PageInfo pageInfo);
 
-    void onEmpty(IPullViewModule pullViewModule, PageInfo pageInfo);
+    void onEmpty(IRefreshViewModule pullViewModule, PageInfo pageInfo);
 
-    void onError(IPullViewModule pullViewModule, Throwable throwable, PageInfo pageInfo);
+    void onError(IRefreshViewModule pullViewModule, Throwable throwable, PageInfo pageInfo);
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 sxenon
+ * Copyright (c) 2017  sxenon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,13 @@
 
 package com.sxenon.echovalley.arch.viewmodule.pull;
 
-/**
- * Layout for pull down or up
- * Created by Sui on 2016/12/11.
- */
+import com.sxenon.echovalley.arch.response.IResponseHandler;
+import com.sxenon.echovalley.arch.viewmodule.IViewModule;
 
-public interface IPullLayout {
-    void beginPullingDown();
+public interface IRefreshViewModule extends IResponseHandler, IViewModule {
+    void onEmpty();
 
-    void beginPullingUp();
+    void onNonEmpty();
 
-    void endPullingUp();
-
-    void endPullingDown();
-
-    void setVisibility(int visibility);
-
+    int getPullAction();
 }

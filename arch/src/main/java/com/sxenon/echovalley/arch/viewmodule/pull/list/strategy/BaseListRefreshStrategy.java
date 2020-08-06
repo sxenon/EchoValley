@@ -24,14 +24,14 @@ import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.adapter.IAdapter
  * Created by Sui on 2017/9/3.
  */
 
-public abstract class BaseListStrategy<R> implements IListStrategy<R> {
+public abstract class BaseListRefreshStrategy<R> implements IListRefreshStrategy<R> {
     private final IAdapterDataHandler<R> adapterDataHandler;
 
-    public BaseListStrategy() {
+    public BaseListRefreshStrategy() {
         this(null);
     }
 
-    public BaseListStrategy(IAdapterDataHandler<R> adapterDataHandler) {
+    public BaseListRefreshStrategy(IAdapterDataHandler<R> adapterDataHandler) {
         this.adapterDataHandler = adapterDataHandler == null ? new DefaultAdapterDataHandler<R>() : adapterDataHandler;
     }
 

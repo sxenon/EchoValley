@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018  sxenon
+ * Copyright (c) 2017  sxenon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,27 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.single.strategy;
-
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
+package com.sxenon.echovalley.arch.viewmodule.pull;
 
 /**
- * BaseSingleStrategy
- * Created by Sui on 2017/9/3.
+ * Strategy pattern
  */
 
-public abstract class BaseSingleStrategy<R> implements ISingleStrategy<R> {
+public interface IRefreshStrategy {
+    int PULL_ACTION_DOWN = 1;
+    int PULL_ACTION_UP = 2;
 
-    @Override
-    public void onError(IPullViewModule pullViewModule, Throwable throwable, PageInfo pageInfo) {
-        pageInfo.currentPage = pageInfo.tempPage = -1;
+    void onPullDown(PageInfo pageInfo);
+
+    void onPullUp(PageInfo pageInfo);
+
+    class PageInfo {
+        public int currentPage;
+        public int tempPage;
+
+        public PageInfo(int currentPage, int tempPage) {
+            this.currentPage = currentPage;
+            this.tempPage = tempPage;
+        }
     }
 }

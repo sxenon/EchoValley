@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017  sxenon
+ * Copyright (c) 2017 sxenon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,22 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.single;
+package com.sxenon.echovalley.arch.viewmodule.pull;
 
-import com.sxenon.echovalley.arch.response.ISingleResponseHandler;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
+/**
+ * Layout for pull down or up
+ * Created by Sui on 2016/12/11.
+ */
 
-public interface ISingleViewModule<R> extends ISingleResponseHandler<R>, IPullViewModule {
+public interface IRefreshLayout {
+    void beginPullingDown();
+
+    void beginPullingUp();
+
+    void endPullingUp();
+
+    void endPullingDown();
+
+    void setVisibility(int visibility);
 
 }

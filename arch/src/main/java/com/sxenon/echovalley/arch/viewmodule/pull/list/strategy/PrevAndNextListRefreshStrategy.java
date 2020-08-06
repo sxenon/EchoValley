@@ -17,8 +17,8 @@
 package com.sxenon.echovalley.arch.viewmodule.pull.list.strategy;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
 import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.adapter.IAdapterDataHandler;
 
 import java.util.List;
@@ -28,16 +28,16 @@ import java.util.List;
  * Created by Sui on 2017/8/6.
  */
 
-public class PrevAndNextListStrategy<R> extends BaseListStrategy<R> {
+public class PrevAndNextListRefreshStrategy<R> extends BaseListRefreshStrategy<R> {
     private final int mInitPage;
     private EventListener<R> mOnPullEventListener;
 
-    public PrevAndNextListStrategy(int initPage) {
+    public PrevAndNextListRefreshStrategy(int initPage) {
         super();
         mInitPage = initPage;
     }
 
-    public PrevAndNextListStrategy(IAdapterDataHandler<R> adapterStrategy, int initPage) {
+    public PrevAndNextListRefreshStrategy(IAdapterDataHandler<R> adapterStrategy, int initPage) {
         super(adapterStrategy);
         mInitPage = initPage;
     }
@@ -83,15 +83,15 @@ public class PrevAndNextListStrategy<R> extends BaseListStrategy<R> {
     }
 
     @Override
-    public void onPartialList(IPullViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onPartialList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
         onPartialNextData(adapter,data);
     }
 
     @Override
-    public void onFullList(IPullViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onFullList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
-        if ( IPullStrategy.PULL_ACTION_UP==pullViewModule.getPullAction()){
+        if ( IRefreshStrategy.PULL_ACTION_UP==pullViewModule.getPullAction()){
             onFullNextData(adapter, data);
         }else {
             onPrevData(adapter, data);
@@ -99,7 +99,7 @@ public class PrevAndNextListStrategy<R> extends BaseListStrategy<R> {
     }
 
     @Override
-    public void onEmptyList(IPullViewModule pullViewModule, PageInfo pageInfo, IAdapter<R> adapter, int action) {
+    public void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<R> adapter, int action) {
         pageInfo.tempPage = pageInfo.currentPage;
         if (pageInfo.currentPage == -1) {
             pullViewModule.onEmpty();
@@ -130,7 +130,7 @@ public class PrevAndNextListStrategy<R> extends BaseListStrategy<R> {
     }
 
     @Override
-    public void onError(IPullViewModule pullViewModule, Throwable throwable, IAdapter<R> adapter, PageInfo pageInfo,int action) {
+    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<R> adapter, PageInfo pageInfo, int action) {
         getAdapterDataHandler().onError(adapter, throwable);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }

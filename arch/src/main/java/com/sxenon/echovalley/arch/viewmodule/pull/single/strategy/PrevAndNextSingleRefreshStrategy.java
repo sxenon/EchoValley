@@ -17,19 +17,19 @@
 package com.sxenon.echovalley.arch.viewmodule.pull.single.strategy;
 
 
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
 
 /**
  * PrevAndNext implement for IPullStrategy
  * Created by Sui on 2017/8/6.
  */
 
-public class PrevAndNextSingleStrategy<R> extends BaseSingleStrategy<R> {
+public class PrevAndNextSingleRefreshStrategy<R> extends BaseSingleRefreshStrategy<R> {
     private final int mInitPage;
     private EventListener<R> mEventListener;
 
-    public PrevAndNextSingleStrategy(int initPage) {
+    public PrevAndNextSingleRefreshStrategy(int initPage) {
         super();
         mInitPage = initPage;
     }
@@ -65,9 +65,9 @@ public class PrevAndNextSingleStrategy<R> extends BaseSingleStrategy<R> {
     }
 
     @Override
-    public void onSingle(IPullViewModule pullViewHolder, R data, PageInfo pageInfo) {
+    public void onSingle(IRefreshViewModule pullViewHolder, R data, PageInfo pageInfo) {
         pageInfo.currentPage = pageInfo.tempPage;
-        if ( IPullStrategy.PULL_ACTION_UP==pullViewHolder.getPullAction()){
+        if ( IRefreshStrategy.PULL_ACTION_UP==pullViewHolder.getPullAction()){
             onNextDataFetched(data);
         }else {
             onPrevDataFetched(data);
@@ -75,7 +75,7 @@ public class PrevAndNextSingleStrategy<R> extends BaseSingleStrategy<R> {
     }
 
     @Override
-    public void onEmpty(IPullViewModule pullViewModule, PageInfo pageInfo) {
+    public void onEmpty(IRefreshViewModule pullViewModule, PageInfo pageInfo) {
         pageInfo.tempPage = pageInfo.currentPage;
         if (pageInfo.currentPage == -1) {
             pullViewModule.onEmpty();

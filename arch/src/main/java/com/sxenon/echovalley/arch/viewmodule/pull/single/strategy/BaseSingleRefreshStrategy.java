@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017  sxenon
+ * Copyright (c) 2018  sxenon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.list;
+package com.sxenon.echovalley.arch.viewmodule.pull.single.strategy;
 
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
 
-import com.sxenon.echovalley.arch.response.IListResponseHandler;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
+/**
+ * BaseSingleStrategy
+ * Created by Sui on 2017/9/3.
+ */
 
-public interface IListViewModule<R> extends IListResponseHandler<R>, IPullViewModule {
+public abstract class BaseSingleRefreshStrategy<R> implements ISingleRefreshStrategy<R> {
 
+    @Override
+    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, PageInfo pageInfo) {
+        pageInfo.currentPage = pageInfo.tempPage = -1;
+    }
 }

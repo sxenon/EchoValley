@@ -19,14 +19,14 @@ package com.sxenon.echovalley.arch.viewmodule.pull.list;
 import android.content.Context;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
-import com.sxenon.echovalley.arch.viewmodule.pull.BasePullViewModule;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullLayout;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.IListStrategy;
+import com.sxenon.echovalley.arch.viewmodule.pull.BaseRefreshViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshLayout;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
+import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.IListRefreshStrategy;
 
 import java.util.List;
 
-public class BaseListViewModule<R, L extends IPullLayout> extends BasePullViewModule<L, IListStrategy<R>> implements IListViewModule<R> {
+public class BaseListRefreshViewModule<R, L extends IRefreshLayout> extends BaseRefreshViewModule<L, IListRefreshStrategy<R>> implements IListRefreshViewModule<R> {
 
     private IAdapter<R> mAdapter;
 
@@ -41,7 +41,7 @@ public class BaseListViewModule<R, L extends IPullLayout> extends BasePullViewMo
      * @param adapter 列表控件相关的adapter
      * @param dataSizeInFullPage 完整页数据个数
      */
-    public BaseListViewModule(Context context, L pullLayout, IListStrategy<R> listStrategy, IAdapter<R> adapter,int dataSizeInFullPage) {
+    public BaseListRefreshViewModule(Context context, L pullLayout, IListRefreshStrategy<R> listStrategy, IAdapter<R> adapter, int dataSizeInFullPage) {
         super(context, pullLayout, listStrategy);
         mDataSizeInFullPage = dataSizeInFullPage;
         mAdapter = adapter;
@@ -68,7 +68,7 @@ public class BaseListViewModule<R, L extends IPullLayout> extends BasePullViewMo
 
 
     public void onListResponse(List<R> response,int action) {
-        if ( IPullStrategy.PULL_ACTION_DOWN == action ){
+        if ( IRefreshStrategy.PULL_ACTION_DOWN == action ){
             endPullingDownAnim();
         }else {
             endPullingUpAnim();

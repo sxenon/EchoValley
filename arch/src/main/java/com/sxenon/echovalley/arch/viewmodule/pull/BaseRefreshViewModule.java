@@ -8,15 +8,15 @@ import com.sxenon.echovalley.arch.util.CommonUtils;
 /**
  * Bridge pattern
  */
-public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullStrategy> implements IPullViewModule {
-    private final IPullStrategy.PageInfo pageInfo = new IPullStrategy.PageInfo(-1, -1);
-    private int mPullAction = IPullStrategy.PULL_ACTION_DOWN;
+public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends IRefreshStrategy> implements IRefreshViewModule {
+    private final IRefreshStrategy.PageInfo pageInfo = new IRefreshStrategy.PageInfo(-1, -1);
+    private int mPullAction = IRefreshStrategy.PULL_ACTION_DOWN;
 
     private final S mPullStrategy;
     private final L mPullLayout;
     private final Context mContext;
 
-    private int mStateWhat = PullStateWhat.WHAT_UNINITIALIZED;
+    private int mStateWhat = RefreshStateWhat.WHAT_UNINITIALIZED;
     private Throwable mError;
 
     private View mEmptyView;
@@ -31,7 +31,7 @@ public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullSt
      * @param pullLayout       刷新容器
      * @param pullStrategy 分页数据填充策略
      */
-    public BasePullViewModule(Context context, L pullLayout, S pullStrategy) {
+    public BaseRefreshViewModule(Context context, L pullLayout, S pullStrategy) {
         mPullLayout = pullLayout;
         mPullStrategy = pullStrategy;
         mContext = context;
@@ -71,7 +71,7 @@ public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullSt
      */
     public final void onBeginPullingDown() {
         mPullStrategy.onPullDown(pageInfo);
-        mPullAction = IPullStrategy.PULL_ACTION_DOWN;
+        mPullAction = IRefreshStrategy.PULL_ACTION_DOWN;
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullSt
      */
     protected final void onBeginPullingUp() {
         mPullStrategy.onPullUp(pageInfo);
-        mPullAction = IPullStrategy.PULL_ACTION_UP;
+        mPullAction = IRefreshStrategy.PULL_ACTION_UP;
     }
 
     public void toInitialize() {
@@ -101,7 +101,7 @@ public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullSt
         instanceState.what = mStateWhat;
         instanceState.arg1 = pageInfo.currentPage;
 
-        if (instanceState.what == PullStateWhat.WHAT_EXCEPTION) {
+        if (instanceState.what == RefreshStateWhat.WHAT_EXCEPTION) {
             instanceState.obj = mError;
         } else {
             instanceState.obj = getData();
@@ -117,16 +117,16 @@ public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullSt
         pageInfo.currentPage = pageInfo.tempPage = savedInstanceState.arg1;
         mStateWhat = savedInstanceState.what;
         switch (savedInstanceState.what) {
-            case PullStateWhat.WHAT_EMPTY:
+            case RefreshStateWhat.WHAT_EMPTY:
                 onEmpty();
                 break;
-            case PullStateWhat.WHAT_EXCEPTION:
+            case RefreshStateWhat.WHAT_EXCEPTION:
                 onError((Throwable) savedInstanceState.obj);
                 break;
-            case PullStateWhat.WHAT_UNINITIALIZED:
+            case RefreshStateWhat.WHAT_UNINITIALIZED:
                 toInitialize();
                 break;
-            case PullStateWhat.WHAT_NON_EMPTY:
+            case RefreshStateWhat.WHAT_NON_EMPTY:
                 restoreData(savedInstanceState.obj);
                 break;
         }
@@ -147,7 +147,7 @@ public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullSt
     @Override
     public void onNonEmpty() {
         getPullLayout().setVisibility(View.VISIBLE);
-        mStateWhat = PullStateWhat.WHAT_NON_EMPTY;
+        mStateWhat = RefreshStateWhat.WHAT_NON_EMPTY;
         CommonUtils.setViewVisibility(mEmptyView, View.GONE);
         CommonUtils.setViewVisibility(mExceptionView, View.GONE);
     }
@@ -164,7 +164,7 @@ public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullSt
     @Override
     public void onError(Throwable throwable) {
         endAllAnim();
-        mStateWhat = PullStateWhat.WHAT_EXCEPTION;
+        mStateWhat = RefreshStateWhat.WHAT_EXCEPTION;
         mError = throwable;
         CommonUtils.setViewVisibility(mEmptyView, View.GONE);
         CommonUtils.setViewVisibility(mExceptionView, View.VISIBLE);
@@ -175,7 +175,7 @@ public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullSt
 
     @Override
     public void onEmpty() {
-        mStateWhat = PullStateWhat.WHAT_EMPTY;
+        mStateWhat = RefreshStateWhat.WHAT_EMPTY;
         pageInfo.currentPage = pageInfo.tempPage = -1;
         CommonUtils.setViewVisibility(mExceptionView, View.GONE);
         CommonUtils.setViewVisibility(mEmptyView, View.VISIBLE);
@@ -233,7 +233,7 @@ public abstract class BasePullViewModule<L extends IPullLayout,S extends IPullSt
         return pageInfo.currentPage;
     }
 
-    public IPullStrategy.PageInfo getPageInfo() {
+    public IRefreshStrategy.PageInfo getPageInfo() {
         return pageInfo;
     }
 

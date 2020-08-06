@@ -17,8 +17,8 @@
 package com.sxenon.echovalley.arch.viewmodule.pull.list.strategy;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.IPullViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
 import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.adapter.IAdapterDataHandler;
 
 import java.util.List;
@@ -28,14 +28,14 @@ import java.util.List;
  * Created by Sui on 2017/8/6.
  */
 
-public class NewAndMoreListStrategy<R> extends BaseListStrategy<R> {
+public class NewAndMoreListRefreshStrategy<R> extends BaseListRefreshStrategy<R> {
     private EventListener<R> mEventListener;
 
-    public NewAndMoreListStrategy() {
+    public NewAndMoreListRefreshStrategy() {
         super();
     }
 
-    public NewAndMoreListStrategy(IAdapterDataHandler<R> adapterStrategy) {
+    public NewAndMoreListRefreshStrategy(IAdapterDataHandler<R> adapterStrategy) {
         super(adapterStrategy);
     }
 
@@ -86,11 +86,11 @@ public class NewAndMoreListStrategy<R> extends BaseListStrategy<R> {
     }
 
     @Override
-    public void onPartialList(IPullViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onPartialList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
             onInitData(adapter, data);
             onNoMoreData();
-        } else if (IPullStrategy.PULL_ACTION_DOWN==action) {//refresh
+        } else if (IRefreshStrategy.PULL_ACTION_DOWN==action) {//refresh
             onNewData(adapter, data);
         } else {
             onPartialMoreData(adapter,data);
@@ -100,10 +100,10 @@ public class NewAndMoreListStrategy<R> extends BaseListStrategy<R> {
     }
 
     @Override
-    public void onFullList(IPullViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onFullList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
             onInitData(adapter, data);
-        } else if (IPullStrategy.PULL_ACTION_DOWN==action) {//refresh
+        } else if (IRefreshStrategy.PULL_ACTION_DOWN==action) {//refresh
             onNewData(adapter, data);
         } else {
             onFullMoreData(adapter, data);
@@ -112,11 +112,11 @@ public class NewAndMoreListStrategy<R> extends BaseListStrategy<R> {
     }
 
     @Override
-    public void onEmptyList(IPullViewModule pullViewModule, PageInfo pageInfo, IAdapter<R> adapter, int action) {
+    public void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<R> adapter, int action) {
         if ( adapter.getItemCount() == 0 ){
             pullViewModule.onEmpty();
         }else {
-            if (IPullStrategy.PULL_ACTION_DOWN==action){
+            if (IRefreshStrategy.PULL_ACTION_DOWN==action){
                 onNoNewData();
             }else {
                 onNoMoreData();
@@ -138,7 +138,7 @@ public class NewAndMoreListStrategy<R> extends BaseListStrategy<R> {
     }
 
     @Override
-    public void onError(IPullViewModule pullViewModule, Throwable throwable, IAdapter<R> adapter, PageInfo pageInfo,int action) {
+    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<R> adapter, PageInfo pageInfo, int action) {
         getAdapterDataHandler().onError(adapter,throwable);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }

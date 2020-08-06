@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull;
+package com.sxenon.echovalley.arch.viewmodule.pull.list;
 
-import com.sxenon.echovalley.arch.response.IResponseHandler;
-import com.sxenon.echovalley.arch.viewmodule.IViewModule;
 
-public interface IPullViewModule extends IResponseHandler, IViewModule {
-    void onEmpty();
+import com.sxenon.echovalley.arch.response.IListResponseHandler;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
 
-    void onNonEmpty();
+public interface IListRefreshViewModule<R> extends IListResponseHandler<R>, IRefreshViewModule {
 
-    int getPullAction();
 }

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull;
+package com.sxenon.echovalley.arch.viewmodule.pull.single;
 
-public class PullStateWhat {
-    public static final int WHAT_UNINITIALIZED = 1;
-    public static final int WHAT_NON_EMPTY = 2;
-    public static final int WHAT_EMPTY = 3;
-    public static final int WHAT_EXCEPTION = 4;
+import com.sxenon.echovalley.arch.response.ISingleResponseHandler;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
+
+public interface ISingleRefreshViewModule<R> extends ISingleResponseHandler<R>, IRefreshViewModule {
+
 }
