@@ -20,7 +20,7 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
     private Throwable mError;
 
     private View mEmptyView;
-    private View mExceptionView;
+    private View mErrorView;
 
     private EventListener mEventListener;
 
@@ -40,15 +40,15 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
     //Component start
     public void setExtraComponents(View emptyView, View exceptionView) {
         mEmptyView = emptyView;
-        mExceptionView = exceptionView;
+        mErrorView = exceptionView;
 
         CommonUtils.setViewVisibility(mEmptyView, View.GONE);
-        CommonUtils.setViewVisibility(mExceptionView, View.GONE);
+        CommonUtils.setViewVisibility(mErrorView, View.GONE);
     }
 
     public void resetExtraComponents(View emptyView, View exceptionView) {
         mEmptyView = emptyView;
-        mExceptionView = exceptionView;
+        mErrorView = exceptionView;
     }
     //Component end
 
@@ -149,7 +149,7 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
         getPullLayout().setVisibility(View.VISIBLE);
         mStateWhat = RefreshStateWhat.WHAT_NON_EMPTY;
         CommonUtils.setViewVisibility(mEmptyView, View.GONE);
-        CommonUtils.setViewVisibility(mExceptionView, View.GONE);
+        CommonUtils.setViewVisibility(mErrorView, View.GONE);
     }
 
     @Override
@@ -167,7 +167,7 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
         mStateWhat = RefreshStateWhat.WHAT_EXCEPTION;
         mError = throwable;
         CommonUtils.setViewVisibility(mEmptyView, View.GONE);
-        CommonUtils.setViewVisibility(mExceptionView, View.VISIBLE);
+        CommonUtils.setViewVisibility(mErrorView, View.VISIBLE);
         if ( mEventListener !=null){
             mEventListener.onError(throwable);
         }
@@ -177,7 +177,7 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
     public void onEmpty() {
         mStateWhat = RefreshStateWhat.WHAT_EMPTY;
         pageInfo.currentPage = pageInfo.tempPage = -1;
-        CommonUtils.setViewVisibility(mExceptionView, View.GONE);
+        CommonUtils.setViewVisibility(mErrorView, View.GONE);
         CommonUtils.setViewVisibility(mEmptyView, View.VISIBLE);
         if ( mEventListener !=null){
             mEventListener.onEmpty();
@@ -187,7 +187,7 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
 
     //Getter start
     public View getExceptionView() {
-        return mExceptionView;
+        return mErrorView;
     }
 
     public View getEmptyView() {

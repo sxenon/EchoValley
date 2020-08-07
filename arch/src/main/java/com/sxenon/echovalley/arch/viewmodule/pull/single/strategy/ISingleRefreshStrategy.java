@@ -24,8 +24,8 @@ import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
  * Created by Sui on 2017/9/3.
  */
 
-public interface ISingleRefreshStrategy<R> extends IRefreshStrategy {
-    void onSingle(IRefreshViewModule pullViewHolder, R data, PageInfo pageInfo);
+public interface ISingleRefreshStrategy<T> extends IRefreshStrategy {
+    void onSingle(IRefreshViewModule pullViewHolder, T data, PageInfo pageInfo);
 
     void onEmpty(IRefreshViewModule pullViewModule, PageInfo pageInfo);
 

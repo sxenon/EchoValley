@@ -28,16 +28,16 @@ import java.util.List;
  * Created by Sui on 2017/8/6.
  */
 
-public class PrevAndNextListRefreshStrategy<R> extends BaseListRefreshStrategy<R> {
+public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
     private final int mInitPage;
-    private EventListener<R> mOnPullEventListener;
+    private EventListener<T> mOnPullEventListener;
 
     public PrevAndNextListRefreshStrategy(int initPage) {
         super();
         mInitPage = initPage;
     }
 
-    public PrevAndNextListRefreshStrategy(IAdapterDataHandler<R> adapterStrategy, int initPage) {
+    public PrevAndNextListRefreshStrategy(IAdapterDataHandler<T> adapterStrategy, int initPage) {
         super(adapterStrategy);
         mInitPage = initPage;
     }
@@ -55,21 +55,21 @@ public class PrevAndNextListRefreshStrategy<R> extends BaseListRefreshStrategy<R
         }
     }
 
-    private void onFullNextData(IAdapter<R> adapter, List<R> data) {
+    private void onFullNextData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onInitData(adapter, data);
         if ( mOnPullEventListener !=null){
             mOnPullEventListener.onFullNextData(data);
         }
     }
 
-    private void onPartialNextData(IAdapter<R> adapter, List<R> data){
+    private void onPartialNextData(IAdapter<T> adapter, List<T> data){
         getAdapterDataHandler().onInitData(adapter, data);
         if ( mOnPullEventListener !=null){
             mOnPullEventListener.onPartialNextData(data);
         }
     }
 
-    private void onPrevData(IAdapter<R> adapter, List<R> data){
+    private void onPrevData(IAdapter<T> adapter, List<T> data){
         getAdapterDataHandler().onInitData(adapter, data);
         if ( mOnPullEventListener !=null){
             mOnPullEventListener.onPrevData(data);
@@ -83,13 +83,13 @@ public class PrevAndNextListRefreshStrategy<R> extends BaseListRefreshStrategy<R
     }
 
     @Override
-    public void onPartialList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onPartialList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
         onPartialNextData(adapter,data);
     }
 
     @Override
-    public void onFullList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onFullList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
         if ( IRefreshStrategy.PULL_ACTION_UP==pullViewModule.getPullAction()){
             onFullNextData(adapter, data);
@@ -99,7 +99,7 @@ public class PrevAndNextListRefreshStrategy<R> extends BaseListRefreshStrategy<R
     }
 
     @Override
-    public void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<R> adapter, int action) {
+    public void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action) {
         pageInfo.tempPage = pageInfo.currentPage;
         if (pageInfo.currentPage == -1) {
             pullViewModule.onEmpty();
@@ -130,12 +130,12 @@ public class PrevAndNextListRefreshStrategy<R> extends BaseListRefreshStrategy<R
     }
 
     @Override
-    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         getAdapterDataHandler().onError(adapter, throwable);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
-    public void setEventListener(EventListener<R> eventListener) {
+    public void setEventListener(EventListener<T> eventListener) {
         this.mOnPullEventListener = eventListener;
     }
 

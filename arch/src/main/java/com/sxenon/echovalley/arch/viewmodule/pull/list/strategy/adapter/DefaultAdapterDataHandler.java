@@ -21,24 +21,24 @@ import com.sxenon.echovalley.arch.adapter.IAdapter;
 
 import java.util.List;
 
-public class DefaultAdapterDataHandler<R> implements IAdapterDataHandler<R> {
+public class DefaultAdapterDataHandler<T> implements IAdapterDataHandler<T> {
     @Override
-    public void onMoreData(IAdapter<R> adapter, List<R> data) {
+    public void onMoreData(IAdapter<T> adapter, List<T> data) {
         adapter.addItems(adapter.getItemCount(),data);
     }
 
     @Override
-    public void onNewData(IAdapter<R> adapter, List<R> data) {
+    public void onNewData(IAdapter<T> adapter, List<T> data) {
         adapter.addItems(0,data);
     }
 
     @Override
-    public void onInitData(IAdapter<R> adapter, List<R> data) {
+    public void onInitData(IAdapter<T> adapter, List<T> data) {
         adapter.resetAllItems(data);
     }
 
     @Override
-    public void onError(IAdapter<R> adapter, Throwable throwable) {
+    public void onError(IAdapter<T> adapter, Throwable throwable) {
         adapter.resetAllItems(null);
     }
 }

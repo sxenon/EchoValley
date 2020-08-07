@@ -26,9 +26,9 @@ import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.IListRefreshStra
 
 import java.util.List;
 
-public class BaseListRefreshViewModule<R, L extends IRefreshLayout> extends BaseRefreshViewModule<L, IListRefreshStrategy<R>> implements IListRefreshViewModule<R> {
+public class BaseListRefreshViewModule<T, L extends IRefreshLayout> extends BaseRefreshViewModule<L, IListRefreshStrategy<T>> implements IListRefreshViewModule<T> {
 
-    private IAdapter<R> mAdapter;
+    private IAdapter<T> mAdapter;
 
     private final int mDataSizeInFullPage;
 
@@ -41,18 +41,18 @@ public class BaseListRefreshViewModule<R, L extends IRefreshLayout> extends Base
      * @param adapter 列表控件相关的adapter
      * @param dataSizeInFullPage 完整页数据个数
      */
-    public BaseListRefreshViewModule(Context context, L pullLayout, IListRefreshStrategy<R> listStrategy, IAdapter<R> adapter, int dataSizeInFullPage) {
+    public BaseListRefreshViewModule(Context context, L pullLayout, IListRefreshStrategy<T> listStrategy, IAdapter<T> adapter, int dataSizeInFullPage) {
         super(context, pullLayout, listStrategy);
         mDataSizeInFullPage = dataSizeInFullPage;
         mAdapter = adapter;
     }
 
-    public IAdapter<R> getAdapter() {
+    public IAdapter<T> getAdapter() {
         return mAdapter;
     }
 
     @Override
-    public void onListResponse(List<R> response) {
+    public void onListResponse(List<T> response) {
         endAllAnim();
         if ( response == null || response.isEmpty()) {
             getPullStrategy().onEmptyList(this, getPageInfo(),mAdapter,getPullAction());
@@ -67,7 +67,7 @@ public class BaseListRefreshViewModule<R, L extends IRefreshLayout> extends Base
     }
 
 
-    public void onListResponse(List<R> response,int action) {
+    public void onListResponse(List<T> response, int action) {
         if ( IRefreshStrategy.PULL_ACTION_DOWN == action ){
             endPullingDownAnim();
         }else {
@@ -92,13 +92,13 @@ public class BaseListRefreshViewModule<R, L extends IRefreshLayout> extends Base
     }
 
     @Override
-    public final List<R> getData() {
+    public final List<T> getData() {
         return mAdapter.getValues();
     }
 
     @Override
     public final void restoreData(Object data) {
         //noinspection unchecked
-        onListResponse((List<R>) data);
+        onListResponse((List<T>) data);
     }
 }

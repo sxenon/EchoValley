@@ -29,59 +29,59 @@ import java.util.List;
  * Created by Sui on 2017/8/6.
  */
 
-public class RefreshAndMoreListRefreshStrategy<R> extends BaseListRefreshStrategy<R> {
+public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
 
-    private final List<EventListener<R>> mEventListeners = new ArrayList<>();
+    private final List<EventListener<T>> mEventListeners = new ArrayList<>();
 
     public RefreshAndMoreListRefreshStrategy() {
         super();
     }
 
-    public RefreshAndMoreListRefreshStrategy(IAdapterDataHandler<R> adapterStrategy) {
+    public RefreshAndMoreListRefreshStrategy(IAdapterDataHandler<T> adapterStrategy) {
         super(adapterStrategy);
     }
 
-    private void onFullMoreData(IAdapter<R> adapter, List<R> data) {
+    private void onFullMoreData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onMoreData(adapter, data);
-        for (EventListener<R> eventListener:mEventListeners){
+        for (EventListener<T> eventListener:mEventListeners){
             eventListener.onFullMoreData(data);
         }
     }
 
-    private void onPartialMoreData(IAdapter<R> adapter, List<R> data){
+    private void onPartialMoreData(IAdapter<T> adapter, List<T> data){
         getAdapterDataHandler().onMoreData(adapter, data);
-        for (EventListener<R> eventListener:mEventListeners){
+        for (EventListener<T> eventListener:mEventListeners){
             eventListener.onPartialMoreData(data);
         }
     }
 
-    private void onInitData(IAdapter<R> adapter, List<R> data) {
+    private void onInitData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onInitData(adapter, data);
-        for (EventListener<R> eventListener:mEventListeners){
+        for (EventListener<T> eventListener:mEventListeners){
             eventListener.onInitData(data);
         }
     }
 
     private void onNoMoreData() {
-        for (EventListener<R> eventListener:mEventListeners){
+        for (EventListener<T> eventListener:mEventListeners){
             eventListener.onNoMoreData();
         }
     }
 
     private void onCanMoreData() {
-        for (EventListener<R> eventListener:mEventListeners){
+        for (EventListener<T> eventListener:mEventListeners){
             eventListener.onCanMoreData();
         }
     }
 
     private void onInitialize() {
-        for (EventListener<R> eventListener:mEventListeners){
+        for (EventListener<T> eventListener:mEventListeners){
             eventListener.onInitialize();
         }
     }
 
     private void onNoData(){
-        for (EventListener<R> eventListener:mEventListeners){
+        for (EventListener<T> eventListener:mEventListeners){
             eventListener.onNoData();
         }
     }
@@ -100,7 +100,7 @@ public class RefreshAndMoreListRefreshStrategy<R> extends BaseListRefreshStrateg
     }
 
     @Override
-    public void onPartialList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onPartialList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
         if (pageInfo.tempPage == 0) {
             onInitData(adapter, data);
@@ -111,7 +111,7 @@ public class RefreshAndMoreListRefreshStrategy<R> extends BaseListRefreshStrateg
     }
 
     @Override
-    public void onFullList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onFullList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
         if (pageInfo.tempPage == 0) {
             onInitData(adapter, data);
@@ -122,7 +122,7 @@ public class RefreshAndMoreListRefreshStrategy<R> extends BaseListRefreshStrateg
     }
 
     @Override
-    public void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<R> adapter, int action) {
+    public void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action) {
         pageInfo.tempPage = pageInfo.currentPage;
         if (action == PULL_ACTION_DOWN) {
             pullViewModule.onEmpty();
@@ -133,12 +133,12 @@ public class RefreshAndMoreListRefreshStrategy<R> extends BaseListRefreshStrateg
     }
 
     @Override
-    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         getAdapterDataHandler().onError(adapter, throwable);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
-    public void addEventListener(EventListener<R> eventListener) {
+    public void addEventListener(EventListener<T> eventListener) {
         mEventListeners.add(eventListener);
     }
 

@@ -23,6 +23,6 @@ import java.util.List;
  * Created by Sui on 2016/12/8.
  */
 
-public interface IListResponseHandler<R> extends IResponseHandler {
-    void onListResponse(List<R> response);
+public interface IListResponseHandler<T> extends IResponseHandler {
+    void onListResponse(List<T> response);
 }

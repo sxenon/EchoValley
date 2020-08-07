@@ -28,39 +28,39 @@ import java.util.List;
  * Created by Sui on 2017/8/6.
  */
 
-public class NewAndMoreListRefreshStrategy<R> extends BaseListRefreshStrategy<R> {
-    private EventListener<R> mEventListener;
+public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
+    private EventListener<T> mEventListener;
 
     public NewAndMoreListRefreshStrategy() {
         super();
     }
 
-    public NewAndMoreListRefreshStrategy(IAdapterDataHandler<R> adapterStrategy) {
+    public NewAndMoreListRefreshStrategy(IAdapterDataHandler<T> adapterStrategy) {
         super(adapterStrategy);
     }
 
-    private void onFullMoreData(IAdapter<R> adapter, List<R> data) {
+    private void onFullMoreData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onMoreData(adapter, data);
         if ( mEventListener !=null){
             mEventListener.onFullMoreData(data);
         }
     }
 
-    private void onPartialMoreData(IAdapter<R> adapter, List<R> data){
+    private void onPartialMoreData(IAdapter<T> adapter, List<T> data){
         getAdapterDataHandler().onMoreData(adapter, data);
         if ( mEventListener !=null){
             mEventListener.onPartialMoreData(data);
         }
     }
 
-    private void onNewData(IAdapter<R> adapter, List<R> data) {
+    private void onNewData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onNewData(adapter, data);
         if ( mEventListener !=null){
             mEventListener.onNewData(data);
         }
     }
 
-    private void onInitData(IAdapter<R> adapter, List<R> data) {
+    private void onInitData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onInitData(adapter, data);
         if ( mEventListener !=null){
             mEventListener.onInitData(data);
@@ -86,7 +86,7 @@ public class NewAndMoreListRefreshStrategy<R> extends BaseListRefreshStrategy<R>
     }
 
     @Override
-    public void onPartialList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onPartialList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
             onInitData(adapter, data);
             onNoMoreData();
@@ -100,7 +100,7 @@ public class NewAndMoreListRefreshStrategy<R> extends BaseListRefreshStrategy<R>
     }
 
     @Override
-    public void onFullList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onFullList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
             onInitData(adapter, data);
         } else if (IRefreshStrategy.PULL_ACTION_DOWN==action) {//refresh
@@ -112,7 +112,7 @@ public class NewAndMoreListRefreshStrategy<R> extends BaseListRefreshStrategy<R>
     }
 
     @Override
-    public void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<R> adapter, int action) {
+    public void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action) {
         if ( adapter.getItemCount() == 0 ){
             pullViewModule.onEmpty();
         }else {
@@ -138,12 +138,12 @@ public class NewAndMoreListRefreshStrategy<R> extends BaseListRefreshStrategy<R>
     }
 
     @Override
-    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<R> adapter, PageInfo pageInfo, int action) {
+    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         getAdapterDataHandler().onError(adapter,throwable);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
-    public void setEventListener(EventListener<R> eventListener) {
+    public void setEventListener(EventListener<T> eventListener) {
         this.mEventListener = eventListener;
     }
 

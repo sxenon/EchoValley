@@ -19,6 +19,6 @@ package com.sxenon.echovalley.arch.viewmodule.pull.single;
 import com.sxenon.echovalley.arch.response.ISingleResponseHandler;
 import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
 
-public interface ISingleRefreshViewModule<R> extends ISingleResponseHandler<R>, IRefreshViewModule {
+public interface ISingleRefreshViewModule<T> extends ISingleResponseHandler<T>, IRefreshViewModule {
 
 }

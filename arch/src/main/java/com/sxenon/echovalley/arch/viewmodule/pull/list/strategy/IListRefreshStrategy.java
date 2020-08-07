@@ -27,13 +27,13 @@ import java.util.List;
  * Created by Sui on 2017/9/3.
  */
 
-public interface IListRefreshStrategy<R> extends IRefreshStrategy {
-    void onFullList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action);
+public interface IListRefreshStrategy<T> extends IRefreshStrategy {
+    void onFullList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
 
-    void onPartialList(IRefreshViewModule pullViewModule, List<R> data, IAdapter<R> adapter, PageInfo pageInfo, int action);
+    void onPartialList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
 
-    void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<R> adapter, int action);
+    void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action);
 
-    void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<R> adapter, PageInfo pageInfo, int action);
+    void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action);
 
 }

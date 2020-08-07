@@ -20,12 +20,12 @@ import com.sxenon.echovalley.arch.adapter.IAdapter;
 
 import java.util.List;
 
-public interface IAdapterDataHandler<R> {
-    void onMoreData(IAdapter<R> adapter, List<R> data);
+public interface IAdapterDataHandler<T> {
+    void onMoreData(IAdapter<T> adapter, List<T> data);
 
-    void onNewData(IAdapter<R> adapter, List<R> data);
+    void onNewData(IAdapter<T> adapter, List<T> data);
 
-    void onInitData(IAdapter<R> adapter, List<R> data);
+    void onInitData(IAdapter<T> adapter, List<T> data);
 
-    void onError(IAdapter<R> adapter, Throwable throwable);
+    void onError(IAdapter<T> adapter, Throwable throwable);
 }

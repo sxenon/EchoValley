@@ -24,8 +24,8 @@ import com.sxenon.echovalley.arch.viewmodule.pull.BaseRefreshViewModule;
 import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshLayout;
 import com.sxenon.echovalley.arch.viewmodule.pull.single.strategy.ISingleRefreshStrategy;
 
-public abstract class BaseSingleRefreshViewModule<R, L extends IRefreshLayout> extends BaseRefreshViewModule<L, ISingleRefreshStrategy<R>> implements ISingleRefreshViewModule<R> {
-    private R mData;
+public abstract class BaseSingleRefreshViewModule<T, L extends IRefreshLayout> extends BaseRefreshViewModule<L, ISingleRefreshStrategy<T>> implements ISingleRefreshViewModule<T> {
+    private T mData;
 
     /**
      * Constructor
@@ -34,7 +34,7 @@ public abstract class BaseSingleRefreshViewModule<R, L extends IRefreshLayout> e
      * @param pullLayout       刷新容器
      * @param singleStrategy 分页数据填充策略
      */
-    public BaseSingleRefreshViewModule(Context context, L pullLayout, ISingleRefreshStrategy<R> singleStrategy) {
+    public BaseSingleRefreshViewModule(Context context, L pullLayout, ISingleRefreshStrategy<T> singleStrategy) {
         super(context, pullLayout, singleStrategy);
     }
 
@@ -46,12 +46,12 @@ public abstract class BaseSingleRefreshViewModule<R, L extends IRefreshLayout> e
     @Override
     public final void restoreData(Object data) {
         //noinspection unchecked
-        mData = (R) data;
+        mData = (T) data;
         onSingleResponse(mData);
     }
 
     @Override
-    public void onSingleResponse(R response) {
+    public void onSingleResponse(T response) {
         mData = response;
         endAllAnim();
         if ( response == null) {
@@ -70,5 +70,5 @@ public abstract class BaseSingleRefreshViewModule<R, L extends IRefreshLayout> e
         getPullStrategy().onError(this, throwable, getPageInfo());
     }
 
-    public abstract void fillViewByData(@NonNull R response);
+    public abstract void fillViewByData(@NonNull T response);
 }

@@ -20,6 +20,6 @@ package com.sxenon.echovalley.arch.viewmodule.pull.list;
 import com.sxenon.echovalley.arch.response.IListResponseHandler;
 import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
 
-public interface IListRefreshViewModule<R> extends IListResponseHandler<R>, IRefreshViewModule {
+public interface IListRefreshViewModule<T> extends IListResponseHandler<T>, IRefreshViewModule {
 
 }

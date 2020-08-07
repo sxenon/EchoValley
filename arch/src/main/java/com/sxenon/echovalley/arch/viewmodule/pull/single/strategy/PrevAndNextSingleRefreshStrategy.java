@@ -25,9 +25,9 @@ import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
  * Created by Sui on 2017/8/6.
  */
 
-public class PrevAndNextSingleRefreshStrategy<R> extends BaseSingleRefreshStrategy<R> {
+public class PrevAndNextSingleRefreshStrategy<T> extends BaseSingleRefreshStrategy<T> {
     private final int mInitPage;
-    private EventListener<R> mEventListener;
+    private EventListener<T> mEventListener;
 
     public PrevAndNextSingleRefreshStrategy(int initPage) {
         super();
@@ -52,20 +52,20 @@ public class PrevAndNextSingleRefreshStrategy<R> extends BaseSingleRefreshStrate
         }
     }
 
-    private void onNextDataFetched(R data){
+    private void onNextDataFetched(T data){
         if ( mEventListener !=null){
             mEventListener.onNextData(data);
         }
     }
 
-    private void onPrevDataFetched(R data){
+    private void onPrevDataFetched(T data){
         if ( mEventListener !=null){
             mEventListener.onPrevData(data);
         }
     }
 
     @Override
-    public void onSingle(IRefreshViewModule pullViewHolder, R data, PageInfo pageInfo) {
+    public void onSingle(IRefreshViewModule pullViewHolder, T data, PageInfo pageInfo) {
         pageInfo.currentPage = pageInfo.tempPage;
         if ( IRefreshStrategy.PULL_ACTION_UP==pullViewHolder.getPullAction()){
             onNextDataFetched(data);
@@ -105,7 +105,7 @@ public class PrevAndNextSingleRefreshStrategy<R> extends BaseSingleRefreshStrate
         pageInfo.tempPage = pageInfo.currentPage + 1;
     }
 
-    public void setFillEventListener(EventListener<R> eventListener) {
+    public void setFillEventListener(EventListener<T> eventListener) {
         this.mEventListener = eventListener;
     }
 

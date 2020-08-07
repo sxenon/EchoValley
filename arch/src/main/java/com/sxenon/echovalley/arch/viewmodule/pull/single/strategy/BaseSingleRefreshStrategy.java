@@ -23,7 +23,7 @@ import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
  * Created by Sui on 2017/9/3.
  */
 
-public abstract class BaseSingleRefreshStrategy<R> implements ISingleRefreshStrategy<R> {
+public abstract class BaseSingleRefreshStrategy<T> implements ISingleRefreshStrategy<T> {
 
     @Override
     public void onError(IRefreshViewModule pullViewModule, Throwable throwable, PageInfo pageInfo) {
