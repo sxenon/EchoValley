@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.list;
+package com.sxenon.echovalley.arch.viewmodule.pull.single;
 
+import com.sxenon.echovalley.arch.response.ISingleResponseHandler;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
 
-import com.sxenon.echovalley.arch.response.IListResponseHandler;
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
-
-public interface IListRefreshViewModule<T> extends IListResponseHandler<T>, IRefreshViewModule {
+public interface ISingleRefreshViewHandle<T> extends ISingleResponseHandler<T>, IRefreshViewHandle {
 
 }

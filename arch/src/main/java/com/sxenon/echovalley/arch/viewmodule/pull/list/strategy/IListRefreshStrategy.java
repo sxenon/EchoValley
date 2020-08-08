@@ -18,7 +18,7 @@ package com.sxenon.echovalley.arch.viewmodule.pull.list.strategy;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
 import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
 
 import java.util.List;
 
@@ -28,12 +28,12 @@ import java.util.List;
  */
 
 public interface IListRefreshStrategy<T> extends IRefreshStrategy {
-    void onFullList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
+    void onFullList(IRefreshViewHandle pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
 
-    void onPartialList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
+    void onPartialList(IRefreshViewHandle pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
 
-    void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action);
+    void onEmptyList(IRefreshViewHandle pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action);
 
-    void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action);
+    void onError(IRefreshViewHandle pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action);
 
 }

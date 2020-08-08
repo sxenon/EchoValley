@@ -18,7 +18,7 @@ package com.sxenon.echovalley.arch.viewmodule.pull.single.strategy;
 
 
 import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
 
 /**
  * PrevAndNext implement for IPullStrategy
@@ -65,7 +65,7 @@ public class PrevAndNextSingleRefreshStrategy<T> extends BaseSingleRefreshStrate
     }
 
     @Override
-    public void onSingle(IRefreshViewModule pullViewHolder, T data, PageInfo pageInfo) {
+    public void onSingle(IRefreshViewHandle pullViewHolder, T data, PageInfo pageInfo) {
         pageInfo.currentPage = pageInfo.tempPage;
         if ( IRefreshStrategy.PULL_ACTION_UP==pullViewHolder.getPullAction()){
             onNextDataFetched(data);
@@ -75,7 +75,7 @@ public class PrevAndNextSingleRefreshStrategy<T> extends BaseSingleRefreshStrate
     }
 
     @Override
-    public void onEmpty(IRefreshViewModule pullViewModule, PageInfo pageInfo) {
+    public void onEmpty(IRefreshViewHandle pullViewModule, PageInfo pageInfo) {
         pageInfo.tempPage = pageInfo.currentPage;
         if (pageInfo.currentPage == -1) {
             pullViewModule.onEmpty();

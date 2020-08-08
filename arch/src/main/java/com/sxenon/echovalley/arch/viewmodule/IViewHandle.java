@@ -2,6 +2,6 @@ package com.sxenon.echovalley.arch.viewmodule;
 
 import android.content.Context;
 
-public interface IViewModule {
+public interface IViewHandle {
     Context getContext();
 }

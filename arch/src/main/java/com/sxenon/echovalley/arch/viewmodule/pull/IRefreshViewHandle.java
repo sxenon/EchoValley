@@ -17,9 +17,9 @@
 package com.sxenon.echovalley.arch.viewmodule.pull;
 
 import com.sxenon.echovalley.arch.response.IResponseHandler;
-import com.sxenon.echovalley.arch.viewmodule.IViewModule;
+import com.sxenon.echovalley.arch.viewmodule.IViewHandle;
 
-public interface IRefreshViewModule extends IResponseHandler, IViewModule {
+public interface IRefreshViewHandle extends IResponseHandler, IViewHandle {
     void onEmpty();
 
     void onNonEmpty();

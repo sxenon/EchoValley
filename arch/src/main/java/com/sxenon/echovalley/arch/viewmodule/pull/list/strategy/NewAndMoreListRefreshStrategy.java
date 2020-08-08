@@ -18,7 +18,7 @@ package com.sxenon.echovalley.arch.viewmodule.pull.list.strategy;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
 import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
 import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.adapter.IAdapterDataHandler;
 
 import java.util.List;
@@ -86,7 +86,7 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     }
 
     @Override
-    public void onPartialList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
+    public void onPartialList(IRefreshViewHandle pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
             onInitData(adapter, data);
             onNoMoreData();
@@ -100,7 +100,7 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     }
 
     @Override
-    public void onFullList(IRefreshViewModule pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
+    public void onFullList(IRefreshViewHandle pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
             onInitData(adapter, data);
         } else if (IRefreshStrategy.PULL_ACTION_DOWN==action) {//refresh
@@ -112,7 +112,7 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     }
 
     @Override
-    public void onEmptyList(IRefreshViewModule pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action) {
+    public void onEmptyList(IRefreshViewHandle pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action) {
         if ( adapter.getItemCount() == 0 ){
             pullViewModule.onEmpty();
         }else {
@@ -138,7 +138,7 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     }
 
     @Override
-    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
+    public void onError(IRefreshViewHandle pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         getAdapterDataHandler().onError(adapter,throwable);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }

@@ -19,14 +19,14 @@ package com.sxenon.echovalley.arch.viewmodule.pull.list;
 import android.content.Context;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
-import com.sxenon.echovalley.arch.viewmodule.pull.BaseRefreshViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.BaseRefreshViewHandle;
 import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshLayout;
 import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
 import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.IListRefreshStrategy;
 
 import java.util.List;
 
-public class BaseListRefreshViewModule<T, L extends IRefreshLayout> extends BaseRefreshViewModule<L, IListRefreshStrategy<T>> implements IListRefreshViewModule<T> {
+public class BaseListRefreshViewHandle<T, L extends IRefreshLayout> extends BaseRefreshViewHandle<L, IListRefreshStrategy<T>> implements IListRefreshViewHandle<T> {
 
     private IAdapter<T> mAdapter;
 
@@ -41,7 +41,7 @@ public class BaseListRefreshViewModule<T, L extends IRefreshLayout> extends Base
      * @param adapter 列表控件相关的adapter
      * @param dataSizeInFullPage 完整页数据个数
      */
-    public BaseListRefreshViewModule(Context context, L pullLayout, IListRefreshStrategy<T> listStrategy, IAdapter<T> adapter, int dataSizeInFullPage) {
+    public BaseListRefreshViewHandle(Context context, L pullLayout, IListRefreshStrategy<T> listStrategy, IAdapter<T> adapter, int dataSizeInFullPage) {
         super(context, pullLayout, listStrategy);
         mDataSizeInFullPage = dataSizeInFullPage;
         mAdapter = adapter;

@@ -8,12 +8,12 @@ import com.sxenon.echovalley.arch.util.CommonUtils;
 /**
  * Bridge pattern
  */
-public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends IRefreshStrategy> implements IRefreshViewModule {
+public abstract class BaseRefreshViewHandle<L extends IRefreshLayout,S extends IRefreshStrategy> implements IRefreshViewHandle {
     private final IRefreshStrategy.PageInfo pageInfo = new IRefreshStrategy.PageInfo(-1, -1);
     private int mPullAction = IRefreshStrategy.PULL_ACTION_DOWN;
 
-    private final S mPullStrategy;
-    private final L mPullLayout;
+    private final S mRefreshStrategy;
+    private final L mRefreshLayout;
     private final Context mContext;
 
     private int mStateWhat = RefreshStateWhat.WHAT_UNINITIALIZED;
@@ -31,9 +31,9 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
      * @param pullLayout       刷新容器
      * @param pullStrategy 分页数据填充策略
      */
-    public BaseRefreshViewModule(Context context, L pullLayout, S pullStrategy) {
-        mPullLayout = pullLayout;
-        mPullStrategy = pullStrategy;
+    public BaseRefreshViewHandle(Context context, L pullLayout, S pullStrategy) {
+        mRefreshLayout = pullLayout;
+        mRefreshStrategy = pullStrategy;
         mContext = context;
     }
 
@@ -59,18 +59,18 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
     }
 
     public void endPullingUpAnim(){
-        mPullLayout.endPullingUp();
+        mRefreshLayout.endPullingUp();
     }
 
     public void endPullingDownAnim(){
-        mPullLayout.endPullingDown();
+        mRefreshLayout.endPullingDown();
     }
 
     /**
      * For subclass call,see demo
      */
     public final void onBeginPullingDown() {
-        mPullStrategy.onPullDown(pageInfo);
+        mRefreshStrategy.onPullDown(pageInfo);
         mPullAction = IRefreshStrategy.PULL_ACTION_DOWN;
     }
 
@@ -78,7 +78,7 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
      * For subclass call,see demo
      */
     protected final void onBeginPullingUp() {
-        mPullStrategy.onPullUp(pageInfo);
+        mRefreshStrategy.onPullUp(pageInfo);
         mPullAction = IRefreshStrategy.PULL_ACTION_UP;
     }
 
@@ -87,11 +87,11 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
     }
 
     public void beginPullingDown() {
-        mPullLayout.beginPullingDown();
+        mRefreshLayout.beginPullingDown();
     }
 
     public void beginPullingUp() {
-        mPullLayout.beginPullingUp();
+        mRefreshLayout.beginPullingUp();
     }
     //Action end
 
@@ -199,7 +199,7 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
     }
 
     public L getPullLayout() {
-        return mPullLayout;
+        return mRefreshLayout;
     }
 
     @Override
@@ -212,7 +212,7 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
     }
 
     public S getPullStrategy() {
-        return mPullStrategy;
+        return mRefreshStrategy;
     }
 
     public abstract Object getData();
@@ -220,10 +220,6 @@ public abstract class BaseRefreshViewModule<L extends IRefreshLayout,S extends I
 
     //Setter start
     public abstract void restoreData(Object data);
-
-    public void setFillerEventWhat(int eventWhat) {
-        mStateWhat = eventWhat;
-    }
 
     public void setError(Throwable error) {
         mError = error;

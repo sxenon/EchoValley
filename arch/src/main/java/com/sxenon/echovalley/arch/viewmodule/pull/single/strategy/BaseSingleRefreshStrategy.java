@@ -16,7 +16,7 @@
 
 package com.sxenon.echovalley.arch.viewmodule.pull.single.strategy;
 
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
+import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
 
 /**
  * BaseSingleStrategy
@@ -26,7 +26,7 @@ import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewModule;
 public abstract class BaseSingleRefreshStrategy<T> implements ISingleRefreshStrategy<T> {
 
     @Override
-    public void onError(IRefreshViewModule pullViewModule, Throwable throwable, PageInfo pageInfo) {
+    public void onError(IRefreshViewHandle pullViewModule, Throwable throwable, PageInfo pageInfo) {
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 }
