@@ -17,9 +17,10 @@
 package com.sxenon.echovalley.arch.viewmodule.pull.list;
 
 
-import com.sxenon.echovalley.arch.response.IListResponseHandler;
 import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
 
-public interface IListRefreshViewHandle<T> extends IListResponseHandler<T>, IRefreshViewHandle {
+import java.util.List;
 
+public interface IListRefreshViewHandle<T> extends IRefreshViewHandle {
+    void onListData(List<T> data);
 }

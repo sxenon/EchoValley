@@ -58,18 +58,17 @@ But，这不是笔者的风格。
 2、adapter，几乎每个项目都会在官方版本的基础上做自己的封装。
 可能的组合是海量，怎么办？
 
-噔噔噔噔
-让我们祭出伟大的桥接模式（Bridge Pattern）
+这个时候就非常适合采用伟大的桥接模式（Bridge Pattern）
 先复习一下它的定义：将抽象部分与它的实现部分分离，使它们可以独立地变化。
 上结构图（来源于网络，大话设计模式，设计模式：可复用面向对象软件的基础）
 
-So why?
+一步步来看
 Bridge Pattern 其实还有一个别名为Handle/Body Pattern
 由此我们定义一个接口
 public interface IViewHandle {//由桥接方式组织多个View的Handle
     Context getContext();
 }
-那么自然的，用来处理Refresh这些事的Handle，自然可以有
+那么自然的，用来处理Refresh这些事的Handle，可以有
 public interface IRefreshViewHandle extends IResponseHandler, IViewHandle {
     void onEmpty();
 
@@ -86,7 +85,13 @@ public interface IResponseHandler {
 
 接着上结构图（不好意思，这只是简版）
 有没有一种完美契合的感觉
-
+其中
+IRefreshStrategy
+IRefreshLayout
+IAdapter<T>
+BaseRefreshViewHandle
+BaseListRefreshViewHandle
+我觉得不需要解释这个类所有的方法及其实现，都太直白了。
 
 
 

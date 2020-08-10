@@ -52,35 +52,35 @@ public class BaseListRefreshViewHandle<T, L extends IRefreshLayout> extends Base
     }
 
     @Override
-    public void onListResponse(List<T> response) {
+    public void onListData(List<T> data) {
         endAllAnim();
-        if ( response == null || response.isEmpty()) {
+        if ( data == null || data.isEmpty()) {
             getPullStrategy().onEmptyList(this, getPageInfo(),mAdapter,getPullAction());
         } else {
             onNonEmpty();
-            if ( response.size()<mDataSizeInFullPage){
-                getPullStrategy().onPartialList(this, response,mAdapter,getPageInfo(),getPullAction());
+            if ( data.size()<mDataSizeInFullPage){
+                getPullStrategy().onPartialList(this, data,mAdapter,getPageInfo(),getPullAction());
             }else {
-                getPullStrategy().onFullList(this, response, mAdapter, getPageInfo(),getPullAction());
+                getPullStrategy().onFullList(this, data, mAdapter, getPageInfo(),getPullAction());
             }
         }
     }
 
 
-    public void onListResponse(List<T> response, int action) {
+    public void onListData(List<T> data, int action) {
         if ( IRefreshStrategy.PULL_ACTION_DOWN == action ){
             endPullingDownAnim();
         }else {
             endPullingUpAnim();
         }
-        if ( response == null || response.isEmpty()) {
+        if ( data == null || data.isEmpty()) {
             getPullStrategy().onEmptyList(this, getPageInfo(),mAdapter,action);
         } else {
             onNonEmpty();
-            if ( response.size()<mDataSizeInFullPage){
-                getPullStrategy().onPartialList(this, response,mAdapter,getPageInfo(),action);
+            if ( data.size()<mDataSizeInFullPage){
+                getPullStrategy().onPartialList(this, data,mAdapter,getPageInfo(),action);
             }else {
-                getPullStrategy().onFullList(this, response, mAdapter, getPageInfo(),action);
+                getPullStrategy().onFullList(this, data, mAdapter, getPageInfo(),action);
             }
         }
     }
@@ -99,6 +99,6 @@ public class BaseListRefreshViewHandle<T, L extends IRefreshLayout> extends Base
     @Override
     public final void restoreData(Object data) {
         //noinspection unchecked
-        onListResponse((List<T>) data);
+        onListData((List<T>) data);
     }
 }

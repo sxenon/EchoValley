@@ -47,20 +47,20 @@ public abstract class BaseSingleRefreshViewHandle<T, L extends IRefreshLayout> e
     public final void restoreData(Object data) {
         //noinspection unchecked
         mData = (T) data;
-        onSingleResponse(mData);
+        onSingleData(mData);
     }
 
     @Override
-    public void onSingleResponse(T response) {
-        mData = response;
+    public void onSingleData(T data) {
+        mData = data;
         endAllAnim();
-        if ( response == null) {
+        if ( data == null) {
             //onEmpty(); maybe no more,but no empty
             getPullStrategy().onEmpty(this, getPageInfo());
         } else {
             onNonEmpty();
-            fillViewByData(response);
-            getPullStrategy().onSingle(this, response, getPageInfo());
+            fillViewByData(data);
+            getPullStrategy().onSingle(this, data, getPageInfo());
         }
     }
 
