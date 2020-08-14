@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.list;
+package com.sxenon.echovalley.arch.viewhandle.refresh.single;
 
+import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
 
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
-
-import java.util.List;
-
-public interface IListRefreshViewHandle<T> extends IRefreshViewHandle {
-    void onListData(List<T> data);
+public interface ISingleRefreshViewHandle<T> extends  IRefreshViewHandle {
+    void onSingleData(T data);
 }

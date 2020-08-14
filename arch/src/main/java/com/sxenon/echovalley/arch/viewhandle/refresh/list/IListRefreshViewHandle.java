@@ -14,27 +14,13 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull;
+package com.sxenon.echovalley.arch.viewhandle.refresh.list;
 
-/**
- * Strategy pattern
- */
 
-public interface IRefreshStrategy {
-    int PULL_ACTION_DOWN = 1;
-    int PULL_ACTION_UP = 2;
+import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
 
-    void onPullDown(PageInfo pageInfo);
+import java.util.List;
 
-    void onPullUp(PageInfo pageInfo);
-
-    class PageInfo {
-        public int currentPage;
-        public int tempPage;
-
-        public PageInfo(int currentPage, int tempPage) {
-            this.currentPage = currentPage;
-            this.tempPage = tempPage;
-        }
-    }
+public interface IListRefreshViewHandle<T> extends IRefreshViewHandle {
+    void onListData(List<T> data);
 }

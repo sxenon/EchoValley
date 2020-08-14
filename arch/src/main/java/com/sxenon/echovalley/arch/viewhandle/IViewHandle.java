@@ -1,4 +1,4 @@
-package com.sxenon.echovalley.arch.viewmodule;
+package com.sxenon.echovalley.arch.viewhandle;
 
 import android.content.Context;
 

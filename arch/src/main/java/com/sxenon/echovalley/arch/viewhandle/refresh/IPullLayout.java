@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017  sxenon
+ * Copyright (c) 2017 sxenon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull;
+package com.sxenon.echovalley.arch.viewhandle.refresh;
 
-import com.sxenon.echovalley.arch.viewmodule.IViewHandle;
+/**
+ * Layout for pull down or up
+ * Created by Sui on 2016/12/11.
+ */
 
-public interface IRefreshViewHandle extends IViewHandle {
-    void onCancel();
+public interface IPullLayout {
+    void beginPullingDown();
 
-    void onError(Throwable throwable);
+    void beginPullingUp();
 
-    void onEmpty();
+    void endPullingDown();
 
-    void onNonEmpty();
+    void endPullingUp();
 
-    int getPullAction();
+    void setVisibility(int visibility);
+
 }

@@ -3,7 +3,7 @@ TODO 适配
 https://github.com/CymChad/BaseRecyclerViewAdapterHelper
 https://github.com/scwang90/SmartRefreshLayout
 
-围绕刷新控件手撕
+换个角度看刷新控件
 刷新控件是移动开发中上层几乎必然接触到的控件之一，市面上的开源刷新控件数不胜数，功能日益强大（为了满足产品不断增长的设计需求，哦不，是为了给用户更好的交互体验）。
 本套框架的目的，当然不是去讲述怎样去做好一个功能完善的刷新控件，大家直接学习各位大神的源码即可，没必要班门弄斧了。
 So，这篇框架的目的究竟是什么，要解决哪些痛点呢？
@@ -60,38 +60,38 @@ But，这不是笔者的风格。
 
 这个时候就非常适合采用伟大的桥接模式（Bridge Pattern）
 先复习一下它的定义：将抽象部分与它的实现部分分离，使它们可以独立地变化。
-上结构图（来源于网络，大话设计模式，设计模式：可复用面向对象软件的基础）
+上结构图
+对应于现在的场景（不好意识，这是简版）
 
-一步步来看
+一步步来解释
 Bridge Pattern 其实还有一个别名为Handle/Body Pattern
 由此我们定义一个接口
 public interface IViewHandle {//由桥接方式组织多个View的Handle
     Context getContext();
 }
 那么自然的，用来处理Refresh这些事的Handle，可以有
-public interface IRefreshViewHandle extends IResponseHandler, IViewHandle {
+public interface IRefreshViewHandle extends IViewHandle {
+
+    void onCancel();
+
+    void onError(Throwable throwable);
+
     void onEmpty();
 
     void onNonEmpty();
 
     int getPullAction();
 }
-其中
-public interface IResponseHandler {
-    void onCancel();
-
-    void onError(Throwable throwable);
-}
-
-接着上结构图（不好意思，这只是简版）
-有没有一种完美契合的感觉
-其中
-IRefreshStrategy
-IRefreshLayout
-IAdapter<T>
-BaseRefreshViewHandle
+对应关系
+Abstraction
 BaseListRefreshViewHandle
-我觉得不需要解释这个类所有的方法及其实现，都太直白了。
+
+Implementor
+IRefreshStrategy //刷新策略
+IRefreshLayout //刷新控件
+IAdapter<T> //列表视图的Adapter
+
+看一下他们的具体定义，很直白，不需要解释
 
 
 

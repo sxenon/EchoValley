@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.single;
+package com.sxenon.echovalley.arch.viewhandle.refresh.single;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.sxenon.echovalley.arch.viewmodule.pull.BaseRefreshViewHandle;
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshLayout;
-import com.sxenon.echovalley.arch.viewmodule.pull.single.strategy.ISingleRefreshStrategy;
+import com.sxenon.echovalley.arch.viewhandle.refresh.BaseRefreshViewHandle;
+import com.sxenon.echovalley.arch.viewhandle.refresh.IPullLayout;
+import com.sxenon.echovalley.arch.viewhandle.refresh.single.strategy.ISingleRefreshStrategy;
 
-public abstract class BaseSingleRefreshViewHandle<T, L extends IRefreshLayout> extends BaseRefreshViewHandle<L, ISingleRefreshStrategy<T>> implements ISingleRefreshViewHandle<T> {
+public abstract class BaseSingleRefreshViewHandle<T, L extends IPullLayout> extends BaseRefreshViewHandle<L, ISingleRefreshStrategy<T>> implements ISingleRefreshViewHandle<T> {
     private T mData;
 
     /**

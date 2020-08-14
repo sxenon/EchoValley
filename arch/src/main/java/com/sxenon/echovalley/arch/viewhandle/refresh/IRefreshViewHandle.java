@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull;
+package com.sxenon.echovalley.arch.viewhandle.refresh;
 
-public class RefreshStateWhat {
-    public static final int WHAT_UNINITIALIZED = 1;
-    public static final int WHAT_NON_EMPTY = 2;
-    public static final int WHAT_EMPTY = 3;
-    public static final int WHAT_EXCEPTION = 4;
+import com.sxenon.echovalley.arch.viewhandle.IViewHandle;
+
+public interface IRefreshViewHandle extends IViewHandle {
+    void onCancel();
+
+    void onError(Throwable throwable);
+
+    void onEmpty();
+
+    void onNonEmpty();
+
+    int getPullAction();
 }

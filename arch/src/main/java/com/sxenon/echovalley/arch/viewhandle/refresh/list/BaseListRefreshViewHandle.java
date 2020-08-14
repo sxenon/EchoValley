@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.list;
+package com.sxenon.echovalley.arch.viewhandle.refresh.list;
 
 import android.content.Context;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
-import com.sxenon.echovalley.arch.viewmodule.pull.BaseRefreshViewHandle;
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshLayout;
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.IListRefreshStrategy;
+import com.sxenon.echovalley.arch.viewhandle.refresh.BaseRefreshViewHandle;
+import com.sxenon.echovalley.arch.viewhandle.refresh.IPullLayout;
+import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshStrategy;
+import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.IListRefreshStrategy;
 
 import java.util.List;
 
-public class BaseListRefreshViewHandle<T, L extends IRefreshLayout> extends BaseRefreshViewHandle<L, IListRefreshStrategy<T>> implements IListRefreshViewHandle<T> {
+public class BaseListRefreshViewHandle<T, L extends IPullLayout> extends BaseRefreshViewHandle<L, IListRefreshStrategy<T>> implements IListRefreshViewHandle<T> {
 
     private IAdapter<T> mAdapter;
 

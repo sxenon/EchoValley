@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.single;
+package com.sxenon.echovalley.arch.viewhandle.refresh;
 
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
-
-public interface ISingleRefreshViewHandle<T> extends  IRefreshViewHandle {
-    void onSingleData(T data);
+public class RefreshStateWhat {
+    public static final int WHAT_UNINITIALIZED = 1;
+    public static final int WHAT_NON_EMPTY = 2;
+    public static final int WHAT_EMPTY = 3;
+    public static final int WHAT_EXCEPTION = 4;
 }

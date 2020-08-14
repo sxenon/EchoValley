@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.single.strategy;
+package com.sxenon.echovalley.arch.viewhandle.refresh;
 
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
+import android.os.Bundle;
 
 /**
- * BaseSingleStrategy
- * Created by Sui on 2017/9/3.
+ * Memento pattern
  */
-
-public abstract class BaseSingleRefreshStrategy<T> implements ISingleRefreshStrategy<T> {
-
-    @Override
-    public void onError(IRefreshViewHandle pullViewModule, Throwable throwable, PageInfo pageInfo) {
-        pageInfo.currentPage = pageInfo.tempPage = -1;
-    }
+public class InstanceState {
+    public int what;
+    public Object obj;
+    public int arg1;
+    public int arg2;
+    public Bundle data;
 }

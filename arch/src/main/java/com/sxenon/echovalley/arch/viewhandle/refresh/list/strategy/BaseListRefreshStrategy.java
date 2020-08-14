@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.list.strategy;
+package com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy;
 
-import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.adapter.DefaultAdapterDataHandler;
-import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.adapter.IAdapterDataHandler;
+import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.adapter.DefaultAdapterDataHandler;
+import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.adapter.IAdapterDataHandler;
 
 /**
  * BaseListStrategy

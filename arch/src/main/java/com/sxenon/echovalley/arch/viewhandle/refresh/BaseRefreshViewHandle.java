@@ -1,4 +1,4 @@
-package com.sxenon.echovalley.arch.viewmodule.pull;
+package com.sxenon.echovalley.arch.viewhandle.refresh;
 
 import android.content.Context;
 import android.view.View;
@@ -8,7 +8,7 @@ import com.sxenon.echovalley.arch.util.CommonUtils;
 /**
  * Bridge pattern
  */
-public abstract class BaseRefreshViewHandle<L extends IRefreshLayout,S extends IRefreshStrategy> implements IRefreshViewHandle {
+public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRefreshStrategy> implements IRefreshViewHandle {
     private final IRefreshStrategy.PageInfo pageInfo = new IRefreshStrategy.PageInfo(-1, -1);
     private int mPullAction = IRefreshStrategy.PULL_ACTION_DOWN;
 

@@ -14,31 +14,18 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.adapter;
-
+package com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.adapter;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
 
 import java.util.List;
 
-public class DefaultAdapterDataHandler<T> implements IAdapterDataHandler<T> {
-    @Override
-    public void onMoreData(IAdapter<T> adapter, List<T> data) {
-        adapter.addItems(adapter.getItemCount(),data);
-    }
+public interface IAdapterDataHandler<T> {
+    void onMoreData(IAdapter<T> adapter, List<T> data);
 
-    @Override
-    public void onNewData(IAdapter<T> adapter, List<T> data) {
-        adapter.addItems(0,data);
-    }
+    void onNewData(IAdapter<T> adapter, List<T> data);
 
-    @Override
-    public void onInitData(IAdapter<T> adapter, List<T> data) {
-        adapter.resetAllItems(data);
-    }
+    void onInitData(IAdapter<T> adapter, List<T> data);
 
-    @Override
-    public void onError(IAdapter<T> adapter, Throwable throwable) {
-        adapter.resetAllItems(null);
-    }
+    void onError(IAdapter<T> adapter, Throwable throwable);
 }

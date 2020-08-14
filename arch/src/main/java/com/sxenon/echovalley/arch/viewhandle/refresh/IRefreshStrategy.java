@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 sxenon
+ * Copyright (c) 2017  sxenon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull;
+package com.sxenon.echovalley.arch.viewhandle.refresh;
 
 /**
- * Layout for pull down or up
- * Created by Sui on 2016/12/11.
+ * Strategy pattern
  */
 
-public interface IRefreshLayout {
-    void beginPullingDown();
+public interface IRefreshStrategy {
+    int PULL_ACTION_DOWN = 1;
+    int PULL_ACTION_UP = 2;
 
-    void beginPullingUp();
+    void onPullDown(PageInfo pageInfo);
 
-    void endPullingUp();
+    void onPullUp(PageInfo pageInfo);
 
-    void endPullingDown();
+    class PageInfo {
+        public int currentPage;
+        public int tempPage;
 
-    void setVisibility(int visibility);
-
+        public PageInfo(int currentPage, int tempPage) {
+            this.currentPage = currentPage;
+            this.tempPage = tempPage;
+        }
+    }
 }

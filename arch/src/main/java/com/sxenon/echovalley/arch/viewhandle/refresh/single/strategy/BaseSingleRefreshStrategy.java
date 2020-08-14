@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.single.strategy;
+package com.sxenon.echovalley.arch.viewhandle.refresh.single.strategy;
 
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshStrategy;
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
+import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
 
 /**
- * ISingleStrategy
+ * BaseSingleStrategy
  * Created by Sui on 2017/9/3.
  */
 
-public interface ISingleRefreshStrategy<T> extends IRefreshStrategy {
-    void onSingle(IRefreshViewHandle pullViewHolder, T data, PageInfo pageInfo);
+public abstract class BaseSingleRefreshStrategy<T> implements ISingleRefreshStrategy<T> {
 
-    void onEmpty(IRefreshViewHandle pullViewModule, PageInfo pageInfo);
-
-    void onError(IRefreshViewHandle pullViewModule, Throwable throwable, PageInfo pageInfo);
-
+    @Override
+    public void onError(IRefreshViewHandle pullViewModule, Throwable throwable, PageInfo pageInfo) {
+        pageInfo.currentPage = pageInfo.tempPage = -1;
+    }
 }

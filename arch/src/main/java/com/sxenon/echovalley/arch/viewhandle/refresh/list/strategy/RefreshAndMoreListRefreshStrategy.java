@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.sxenon.echovalley.arch.viewmodule.pull.list.strategy;
+package com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy;
 
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
-import com.sxenon.echovalley.arch.viewmodule.pull.IRefreshViewHandle;
-import com.sxenon.echovalley.arch.viewmodule.pull.list.strategy.adapter.IAdapterDataHandler;
+import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
+import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.adapter.IAdapterDataHandler;
 
 import java.util.ArrayList;
 import java.util.List;
