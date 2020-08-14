@@ -26,7 +26,7 @@ import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
 public abstract class BaseSingleRefreshStrategy<T> implements ISingleRefreshStrategy<T> {
 
     @Override
-    public void onError(IRefreshViewHandle pullViewModule, Throwable throwable, PageInfo pageInfo) {
+    public void onError(IRefreshViewHandle refreshViewHandle, Throwable throwable, PageInfo pageInfo) {
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 }

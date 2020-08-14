@@ -65,9 +65,9 @@ public class PrevAndNextSingleRefreshStrategy<T> extends BaseSingleRefreshStrate
     }
 
     @Override
-    public void onSingle(IRefreshViewHandle pullViewHolder, T data, PageInfo pageInfo) {
+    public void onSingle(IRefreshViewHandle refreshViewHandle, T data, PageInfo pageInfo) {
         pageInfo.currentPage = pageInfo.tempPage;
-        if ( IRefreshStrategy.PULL_ACTION_UP==pullViewHolder.getPullAction()){
+        if ( IRefreshStrategy.PULL_ACTION_UP== refreshViewHandle.getPullAction()){
             onNextDataFetched(data);
         }else {
             onPrevDataFetched(data);
@@ -75,10 +75,10 @@ public class PrevAndNextSingleRefreshStrategy<T> extends BaseSingleRefreshStrate
     }
 
     @Override
-    public void onEmpty(IRefreshViewHandle pullViewModule, PageInfo pageInfo) {
+    public void onEmpty(IRefreshViewHandle refreshViewHandle, PageInfo pageInfo) {
         pageInfo.tempPage = pageInfo.currentPage;
         if (pageInfo.currentPage == -1) {
-            pullViewModule.onEmpty();
+            refreshViewHandle.onEmpty();
         } else {
             onNoNextData();
         }

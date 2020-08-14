@@ -86,7 +86,7 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     }
 
     @Override
-    public void onPartialList(IRefreshViewHandle pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
+    public void onPartialList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
             onInitData(adapter, data);
             onNoMoreData();
@@ -100,7 +100,7 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     }
 
     @Override
-    public void onFullList(IRefreshViewHandle pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
+    public void onFullList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
             onInitData(adapter, data);
         } else if (IRefreshStrategy.PULL_ACTION_DOWN==action) {//refresh
@@ -112,9 +112,9 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     }
 
     @Override
-    public void onEmptyList(IRefreshViewHandle pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action) {
+    public void onEmptyList(IRefreshViewHandle refreshViewHandle, PageInfo pageInfo, IAdapter<T> adapter, int action) {
         if ( adapter.getItemCount() == 0 ){
-            pullViewModule.onEmpty();
+            refreshViewHandle.onEmpty();
         }else {
             if (IRefreshStrategy.PULL_ACTION_DOWN==action){
                 onNoNewData();
@@ -138,7 +138,7 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     }
 
     @Override
-    public void onError(IRefreshViewHandle pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
+    public void onError(IRefreshViewHandle refreshViewHandle, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         getAdapterDataHandler().onError(adapter,throwable);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }

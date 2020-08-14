@@ -25,10 +25,10 @@ import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
  */
 
 public interface ISingleRefreshStrategy<T> extends IRefreshStrategy {
-    void onSingle(IRefreshViewHandle pullViewHolder, T data, PageInfo pageInfo);
+    void onSingle(IRefreshViewHandle refreshViewHandle, T data, PageInfo pageInfo);
 
-    void onEmpty(IRefreshViewHandle pullViewModule, PageInfo pageInfo);
+    void onEmpty(IRefreshViewHandle refreshViewHandle, PageInfo pageInfo);
 
-    void onError(IRefreshViewHandle pullViewModule, Throwable throwable, PageInfo pageInfo);
+    void onError(IRefreshViewHandle refreshViewHandle, Throwable throwable, PageInfo pageInfo);
 
 }

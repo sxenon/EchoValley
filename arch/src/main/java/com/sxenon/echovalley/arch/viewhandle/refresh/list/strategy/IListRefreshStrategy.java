@@ -28,12 +28,12 @@ import java.util.List;
  */
 
 public interface IListRefreshStrategy<T> extends IRefreshStrategy {
-    void onFullList(IRefreshViewHandle pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
+    void onFullList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
 
-    void onPartialList(IRefreshViewHandle pullViewModule, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
+    void onPartialList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action);
 
-    void onEmptyList(IRefreshViewHandle pullViewModule, PageInfo pageInfo, IAdapter<T> adapter, int action);
+    void onEmptyList(IRefreshViewHandle refreshViewHandle, PageInfo pageInfo, IAdapter<T> adapter, int action);
 
-    void onError(IRefreshViewHandle pullViewModule, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action);
+    void onError(IRefreshViewHandle refreshViewHandle, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action);
 
 }
