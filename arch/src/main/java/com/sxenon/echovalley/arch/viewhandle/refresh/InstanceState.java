@@ -16,15 +16,11 @@
 
 package com.sxenon.echovalley.arch.viewhandle.refresh;
 
-import android.os.Bundle;
-
 /**
  * Memento pattern
  */
 public class InstanceState {
     public int what;
     public Object obj;
-    public int arg1;
-    public int arg2;
-    public Bundle data;
+    public int page;
 }

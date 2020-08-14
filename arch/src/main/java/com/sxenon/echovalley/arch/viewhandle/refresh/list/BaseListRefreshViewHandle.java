@@ -20,13 +20,11 @@ import android.content.Context;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
 import com.sxenon.echovalley.arch.viewhandle.refresh.BaseRefreshViewHandle;
-import com.sxenon.echovalley.arch.viewhandle.refresh.IPullLayout;
-import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshStrategy;
 import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.IListRefreshStrategy;
 
 import java.util.List;
 
-public abstract class BaseListRefreshViewHandle<T, L extends IPullLayout> extends BaseRefreshViewHandle<L, IListRefreshStrategy<T>> implements IListRefreshViewHandle<T> {
+public abstract class BaseListRefreshViewHandle<T> extends BaseRefreshViewHandle<IListRefreshStrategy<T>> implements IListRefreshViewHandle<T> {
 
     private final IAdapter<T> mAdapter;
 
@@ -36,13 +34,12 @@ public abstract class BaseListRefreshViewHandle<T, L extends IPullLayout> extend
      * Constructor
      *
      * @param context          上下文
-     * @param pullLayout       刷新容器
      * @param listStrategy 分页数据填充策略
      * @param adapter 列表控件相关的adapter
      * @param dataSizeInFullPage 完整页数据个数
      */
-    public BaseListRefreshViewHandle(Context context, L pullLayout, IListRefreshStrategy<T> listStrategy, IAdapter<T> adapter, int dataSizeInFullPage) {
-        super(context, pullLayout, listStrategy);
+    public BaseListRefreshViewHandle(Context context, IListRefreshStrategy<T> listStrategy, IAdapter<T> adapter, int dataSizeInFullPage) {
+        super(context, listStrategy);
         mDataSizeInFullPage = dataSizeInFullPage;
         mAdapter = adapter;
     }
@@ -53,7 +50,6 @@ public abstract class BaseListRefreshViewHandle<T, L extends IPullLayout> extend
 
     @Override
     public void onListData(List<T> data) {
-        endAllAnim();
         if ( data == null || data.isEmpty()) {
             getPullStrategy().onEmptyList(this, getPageInfo(),mAdapter,getPullAction());
         } else {
@@ -67,23 +63,23 @@ public abstract class BaseListRefreshViewHandle<T, L extends IPullLayout> extend
     }
 
 
-    public void onListData(List<T> data, int action) {
-        if ( IRefreshStrategy.PULL_ACTION_DOWN == action ){
-            endPullingDownAnim();
-        }else {
-            endPullingUpAnim();
-        }
-        if ( data == null || data.isEmpty()) {
-            getPullStrategy().onEmptyList(this, getPageInfo(),mAdapter,action);
-        } else {
-            onNonEmpty();
-            if ( data.size()<mDataSizeInFullPage){
-                getPullStrategy().onPartialList(this, data,mAdapter,getPageInfo(),action);
-            }else {
-                getPullStrategy().onFullList(this, data, mAdapter, getPageInfo(),action);
-            }
-        }
-    }
+//    public void onListData(List<T> data, int action) {
+//        if ( IRefreshStrategy.PULL_ACTION_DOWN == action ){
+//            endPullingDownAnim();
+//        }else {
+//            endPullingUpAnim();
+//        }
+//        if ( data == null || data.isEmpty()) {
+//            getPullStrategy().onEmptyList(this, getPageInfo(),mAdapter,action);
+//        } else {
+//            onNonEmpty();
+//            if ( data.size()<mDataSizeInFullPage){
+//                getPullStrategy().onPartialList(this, data,mAdapter,getPageInfo(),action);
+//            }else {
+//                getPullStrategy().onFullList(this, data, mAdapter, getPageInfo(),action);
+//            }
+//        }
+//    }
 
     @Override
     public void onError(Throwable throwable) {

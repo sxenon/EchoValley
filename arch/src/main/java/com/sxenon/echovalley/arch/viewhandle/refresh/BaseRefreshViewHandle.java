@@ -8,12 +8,11 @@ import com.sxenon.echovalley.arch.util.CommonUtils;
 /**
  * Bridge pattern
  */
-public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRefreshStrategy> implements IRefreshViewHandle {
+public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implements IRefreshViewHandle {
     private final IRefreshStrategy.PageInfo pageInfo = new IRefreshStrategy.PageInfo(-1, -1);
     private int mPullAction = IRefreshStrategy.PULL_ACTION_DOWN;
 
     private final S mRefreshStrategy;
-    private final L mRefreshLayout;
     private final Context mContext;
 
     private int mStateWhat = RefreshStateWhat.WHAT_UNINITIALIZED;
@@ -28,11 +27,9 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
      * Constructor
      *
      * @param context          上下文
-     * @param pullLayout       刷新容器
      * @param pullStrategy 分页数据填充策略
      */
-    public BaseRefreshViewHandle(Context context, L pullLayout, S pullStrategy) {
-        mRefreshLayout = pullLayout;
+    public BaseRefreshViewHandle(Context context, S pullStrategy) {
         mRefreshStrategy = pullStrategy;
         mContext = context;
     }
@@ -52,20 +49,6 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
     }
     //Component end
 
-    //Action start
-    public void endAllAnim() {
-        endPullingDownAnim();
-        endPullingUpAnim();
-    }
-
-    public void endPullingUpAnim(){
-        mRefreshLayout.endPullingUp();
-    }
-
-    public void endPullingDownAnim(){
-        mRefreshLayout.endPullingDown();
-    }
-
     /**
      * For subclass call,see demo
      */
@@ -82,15 +65,13 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
         mPullAction = IRefreshStrategy.PULL_ACTION_UP;
     }
 
-    public abstract void toInitialize();
-
     //Action end
 
     //InstanceState start
     public InstanceState getCurrentInstanceState() {
         InstanceState instanceState = new InstanceState();
         instanceState.what = mStateWhat;
-        instanceState.arg1 = pageInfo.currentPage;
+        instanceState.page = pageInfo.currentPage;
 
         if (instanceState.what == RefreshStateWhat.WHAT_EXCEPTION) {
             instanceState.obj = mError;
@@ -102,10 +83,9 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
 
     public void restoreInstanceState(InstanceState savedInstanceState) {
         if (savedInstanceState == null) {
-            toInitialize();
             return;
         }
-        pageInfo.currentPage = pageInfo.tempPage = savedInstanceState.arg1;
+        pageInfo.currentPage = pageInfo.tempPage = savedInstanceState.page;
         mStateWhat = savedInstanceState.what;
         switch (savedInstanceState.what) {
             case RefreshStateWhat.WHAT_EMPTY:
@@ -115,7 +95,6 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
                 onError((Throwable) savedInstanceState.obj);
                 break;
             case RefreshStateWhat.WHAT_UNINITIALIZED:
-                toInitialize();
                 break;
             case RefreshStateWhat.WHAT_NON_EMPTY:
                 restoreData(savedInstanceState.obj);
@@ -137,7 +116,6 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
 
     @Override
     public void onNonEmpty() {
-        getPullLayout().setVisibility(View.VISIBLE);
         mStateWhat = RefreshStateWhat.WHAT_NON_EMPTY;
         CommonUtils.setViewVisibility(mEmptyView, View.GONE);
         CommonUtils.setViewVisibility(mErrorView, View.GONE);
@@ -145,7 +123,6 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
 
     @Override
     public void onCancel() {
-        endAllAnim();
         pageInfo.tempPage = pageInfo.currentPage;
         if ( mEventListener !=null){
             mEventListener.onCancel();
@@ -154,7 +131,6 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
 
     @Override
     public void onError(Throwable throwable) {
-        endAllAnim();
         mStateWhat = RefreshStateWhat.WHAT_EXCEPTION;
         mError = throwable;
         CommonUtils.setViewVisibility(mEmptyView, View.GONE);
@@ -185,21 +161,13 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
         return mEmptyView;
     }
 
-    public int getPullEventWhat() {
+    public int getStateWhat() {
         return mStateWhat;
-    }
-
-    public L getPullLayout() {
-        return mRefreshLayout;
     }
 
     @Override
     public Context getContext() {
         return mContext;
-    }
-
-    public Throwable getError() {
-        return mError;
     }
 
     public S getPullStrategy() {
@@ -211,10 +179,6 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
 
     //Setter start
     public abstract void restoreData(Object data);
-
-    public void setError(Throwable error) {
-        mError = error;
-    }
 
     public int getCurrentPageCount() {
         return pageInfo.currentPage;

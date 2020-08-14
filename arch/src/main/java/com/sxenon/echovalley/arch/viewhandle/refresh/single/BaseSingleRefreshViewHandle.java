@@ -21,21 +21,19 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.sxenon.echovalley.arch.viewhandle.refresh.BaseRefreshViewHandle;
-import com.sxenon.echovalley.arch.viewhandle.refresh.IPullLayout;
 import com.sxenon.echovalley.arch.viewhandle.refresh.single.strategy.ISingleRefreshStrategy;
 
-public abstract class BaseSingleRefreshViewHandle<T, L extends IPullLayout> extends BaseRefreshViewHandle<L, ISingleRefreshStrategy<T>> implements ISingleRefreshViewHandle<T> {
+public abstract class BaseSingleRefreshViewHandle<T> extends BaseRefreshViewHandle<ISingleRefreshStrategy<T>> implements ISingleRefreshViewHandle<T> {
     private T mData;
 
     /**
      * Constructor
      *
      * @param context          上下文
-     * @param pullLayout       刷新容器
      * @param singleStrategy 分页数据填充策略
      */
-    public BaseSingleRefreshViewHandle(Context context, L pullLayout, ISingleRefreshStrategy<T> singleStrategy) {
-        super(context, pullLayout, singleStrategy);
+    public BaseSingleRefreshViewHandle(Context context, ISingleRefreshStrategy<T> singleStrategy) {
+        super(context, singleStrategy);
     }
 
     @Override
@@ -53,7 +51,6 @@ public abstract class BaseSingleRefreshViewHandle<T, L extends IPullLayout> exte
     @Override
     public void onSingleData(T data) {
         mData = data;
-        endAllAnim();
         if ( data == null) {
             //onEmpty(); maybe no more,but no empty
             getPullStrategy().onEmpty(this, getPageInfo());
