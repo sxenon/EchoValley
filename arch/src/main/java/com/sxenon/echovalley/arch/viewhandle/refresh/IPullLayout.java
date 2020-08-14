@@ -22,9 +22,6 @@ package com.sxenon.echovalley.arch.viewhandle.refresh;
  */
 
 public interface IPullLayout {
-    void beginPullingDown();
-
-    void beginPullingUp();
 
     void endPullingDown();
 

@@ -82,17 +82,8 @@ public abstract class BaseRefreshViewHandle<L extends IPullLayout,S extends IRef
         mPullAction = IRefreshStrategy.PULL_ACTION_UP;
     }
 
-    public void toInitialize() {
-        beginPullingDown();
-    }
+    public abstract void toInitialize();
 
-    public void beginPullingDown() {
-        mRefreshLayout.beginPullingDown();
-    }
-
-    public void beginPullingUp() {
-        mRefreshLayout.beginPullingUp();
-    }
     //Action end
 
     //InstanceState start

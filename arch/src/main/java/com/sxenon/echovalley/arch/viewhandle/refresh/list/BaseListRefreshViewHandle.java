@@ -26,9 +26,9 @@ import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.IListRefreshS
 
 import java.util.List;
 
-public class BaseListRefreshViewHandle<T, L extends IPullLayout> extends BaseRefreshViewHandle<L, IListRefreshStrategy<T>> implements IListRefreshViewHandle<T> {
+public abstract class BaseListRefreshViewHandle<T, L extends IPullLayout> extends BaseRefreshViewHandle<L, IListRefreshStrategy<T>> implements IListRefreshViewHandle<T> {
 
-    private IAdapter<T> mAdapter;
+    private final IAdapter<T> mAdapter;
 
     private final int mDataSizeInFullPage;
 
