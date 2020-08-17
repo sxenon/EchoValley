@@ -40,43 +40,39 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
         super(adapterStrategy);
     }
 
-    private void onFullMoreData(IAdapter<T> adapter, List<T> data) {
-        getAdapterDataHandler().onMoreData(adapter, data);
+    private void onCanMoreResult(){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onFullMoreData(data);
+            eventListener.onCanMoreResult();
         }
     }
 
-    private void onPartialMoreData(IAdapter<T> adapter, List<T> data){
-        getAdapterDataHandler().onMoreData(adapter, data);
+    private void onNewResult(){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onPartialMoreData(data);
+            eventListener.onNewResult();
         }
     }
 
-    private void onNewData(IAdapter<T> adapter, List<T> data) {
-        getAdapterDataHandler().onNewData(adapter, data);
+    private void onInitResult(){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onNewData(data);
+            eventListener.onInitResult();
         }
     }
 
-    private void onInitData(IAdapter<T> adapter, List<T> data) {
-        getAdapterDataHandler().onInitData(adapter, data);
+    private void onNoMoreResult() {
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onInitData(data);
+            eventListener.onNoMoreResult();
         }
     }
 
-    private void onNoMoreData() {
+    private void onNoNewResult() {
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onNoMoreData();
+            eventListener.onNoNewResult();
         }
     }
 
-    private void onNoNewData() {
+    private void onEmptyResult(){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onNoNewData();
+            eventListener.onEmptyResult();
         }
     }
 
@@ -89,12 +85,14 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     @Override
     public void onPartialList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
-            onInitData(adapter, data);
-            onNoMoreData();
+            getAdapterDataHandler().onInitData(adapter, data);
+            onInitResult();
         } else if (IRefreshStrategy.PULL_ACTION_DOWN==action) {//refresh
-            onNewData(adapter, data);
+            getAdapterDataHandler().onNewData(adapter, data);
+            onNewResult();
         } else {
-            onPartialMoreData(adapter,data);
+            getAdapterDataHandler().onMoreData(adapter, data);
+            onNoMoreResult();
         }
         pageInfo.currentPage = pageInfo.tempPage;
 
@@ -103,11 +101,14 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     @Override
     public void onFullList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
-            onInitData(adapter, data);
+            getAdapterDataHandler().onInitData(adapter, data);
+            onInitResult();
         } else if (IRefreshStrategy.PULL_ACTION_DOWN==action) {//refresh
-            onNewData(adapter, data);
+            getAdapterDataHandler().onNewData(adapter, data);
+            onNewResult();
         } else {
-            onFullMoreData(adapter, data);
+            getAdapterDataHandler().onMoreData(adapter, data);
+            onCanMoreResult();
         }
         pageInfo.currentPage = pageInfo.tempPage;
     }
@@ -116,11 +117,12 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     public void onEmptyList(IRefreshViewHandle refreshViewHandle, PageInfo pageInfo, IAdapter<T> adapter, int action) {
         if ( adapter.getItemCount() == 0 ){
             refreshViewHandle.onEmpty();
+            onEmptyResult();
         }else {
             if (IRefreshStrategy.PULL_ACTION_DOWN==action){
-                onNoNewData();
+                onNoNewResult();
             }else {
-                onNoMoreData();
+                onNoMoreResult();
             }
         }
     }
@@ -149,12 +151,12 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     }
 
     public interface EventListener<T> {
-        void onFullMoreData(List<T> data);
-        void onPartialMoreData(List<T> data);
-        void onNewData(List<T> data);
-        void onInitData(List<T> data);
-        void onNoMoreData();
-        void onNoNewData();
+        void onEmptyResult();
+        void onCanMoreResult();
+        void onNewResult();
+        void onInitResult();
+        void onNoMoreResult();
+        void onNoNewResult();
         void onInitialize();
     }
 }

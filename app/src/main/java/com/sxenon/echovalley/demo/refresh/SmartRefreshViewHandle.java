@@ -14,15 +14,10 @@ import com.sxenon.echovalley.arch.viewhandle.refresh.list.IListRefreshViewHandle
 import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.IListRefreshStrategy;
 
 public class SmartRefreshViewHandle<T> extends BaseListRefreshViewHandle<T> implements IListRefreshViewHandle<T> {
-    private SmartRefreshLayout mSmartRefreshLayout;
 
-    public SmartRefreshViewHandle(Context context, IListRefreshStrategy<T> listStrategy, IAdapter<T> adapter, int dataSizeInFullPage,SmartRefreshLayout smartRefreshLayout) {
+    public SmartRefreshViewHandle(Context context, IListRefreshStrategy<T> listStrategy, IAdapter<T> adapter, int dataSizeInFullPage, final SmartRefreshLayout smartRefreshLayout, final OnRefreshLoadMoreListener listener) {
         super(context, listStrategy, adapter, dataSizeInFullPage);
-        mSmartRefreshLayout = smartRefreshLayout;
-    }
-
-    public void setListener(final OnRefreshLoadMoreListener listener) {
-        mSmartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+        smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 onBeginPullingUp();
@@ -44,20 +39,20 @@ public class SmartRefreshViewHandle<T> extends BaseListRefreshViewHandle<T> impl
             @Override
             public void onError(Throwable throwable) {
                 if (getPullAction()== IRefreshStrategy.PULL_ACTION_DOWN){
-                    mSmartRefreshLayout.finishRefresh(false);
+                    smartRefreshLayout.finishRefresh(false);
                 }else {
-                    mSmartRefreshLayout.finishLoadMore(false);
+                    smartRefreshLayout.finishLoadMore(false);
                 }
             }
 
             @Override
             public void onCancel() {
                 if (getPullAction()== IRefreshStrategy.PULL_ACTION_DOWN){
-                    mSmartRefreshLayout.finishRefresh(false);
+                    smartRefreshLayout.finishRefresh(false);
                 }else {
-                    mSmartRefreshLayout.finishLoadMore(false);
+                    smartRefreshLayout.finishLoadMore(false);
                 }
             }
         });
     }
-}
+    }

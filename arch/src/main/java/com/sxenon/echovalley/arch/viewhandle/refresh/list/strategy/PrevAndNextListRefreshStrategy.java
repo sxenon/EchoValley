@@ -43,36 +43,27 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
     }
 
 
-    private void onNoPrevData(){
+    private void onNoPrevResult(){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onNoPrevData();
+            eventListener.onNoPrevResult();
         }
     }
 
-    private void onNoNextData() {
+    private void onNoNextResult() {
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onNoNextData();
+            eventListener.onNoNextResult();
         }
     }
 
-    private void onFullNextData(IAdapter<T> adapter, List<T> data) {
-        getAdapterDataHandler().onInitData(adapter, data);
+    private void onCanNextResult(){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onFullNextData(data);
+            eventListener.onCanNextResult();
         }
     }
 
-    private void onPartialNextData(IAdapter<T> adapter, List<T> data){
-        getAdapterDataHandler().onInitData(adapter, data);
+    private void onPrevResult(){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onPartialNextData(data);
-        }
-    }
-
-    private void onPrevData(IAdapter<T> adapter, List<T> data){
-        getAdapterDataHandler().onInitData(adapter, data);
-        for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onPrevData(data);
+            eventListener.onPrevResult();
         }
     }
 
@@ -82,19 +73,32 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
         }
     }
 
+    private void onEmptyResult(){
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onEmptyResult();
+        }
+    }
+
     @Override
     public void onPartialList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
-        onPartialNextData(adapter,data);
+        getAdapterDataHandler().onInitData(adapter, data);
+        if (IRefreshStrategy.PULL_ACTION_DOWN == refreshViewHandle.getPullAction()){
+            onPrevResult();
+        }else {
+            onNoNextResult();
+        }
+
     }
 
     @Override
     public void onFullList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
+        getAdapterDataHandler().onInitData(adapter, data);
         if ( IRefreshStrategy.PULL_ACTION_UP== refreshViewHandle.getPullAction()){
-            onFullNextData(adapter, data);
+            onCanNextResult();
         }else {
-            onPrevData(adapter, data);
+            onPrevResult();
         }
     }
 
@@ -103,8 +107,9 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
         pageInfo.tempPage = pageInfo.currentPage;
         if (pageInfo.currentPage == -1) {
             refreshViewHandle.onEmpty();
+            onEmptyResult();
         } else {
-            onNoNextData();
+            onNoNextResult();
         }
     }
 
@@ -116,7 +121,7 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
                 pageInfo.tempPage = mInitPage;
                 break;
             case 0:
-                onNoPrevData();
+                onNoPrevResult();
                 break;
             default:
                 pageInfo.tempPage = pageInfo.currentPage - 1;
@@ -140,11 +145,11 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
     }
 
     public interface EventListener<T>{
-        void onFullNextData(List<T> data);
-        void onPartialNextData(List<T> data);
-        void onPrevData(List<T> data);
-        void onNoPrevData();
-        void onNoNextData();
+        void onEmptyResult();
+        void onCanNextResult();
+        void onPrevResult();
+        void onNoPrevResult();
+        void onNoNextResult();
         void onInitialize();
     }
 }
