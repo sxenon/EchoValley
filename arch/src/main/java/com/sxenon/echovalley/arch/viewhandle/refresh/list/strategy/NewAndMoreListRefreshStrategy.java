@@ -21,6 +21,7 @@ import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshStrategy;
 import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
 import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.adapter.IAdapterDataHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ import java.util.List;
  */
 
 public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
-    private EventListener<T> mEventListener;
+    private List<EventListener<T>> mEventListenerList = new ArrayList<>();
 
     public NewAndMoreListRefreshStrategy() {
         super();
@@ -41,47 +42,47 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
 
     private void onFullMoreData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onMoreData(adapter, data);
-        if ( mEventListener !=null){
-            mEventListener.onFullMoreData(data);
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onFullMoreData(data);
         }
     }
 
     private void onPartialMoreData(IAdapter<T> adapter, List<T> data){
         getAdapterDataHandler().onMoreData(adapter, data);
-        if ( mEventListener !=null){
-            mEventListener.onPartialMoreData(data);
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onPartialMoreData(data);
         }
     }
 
     private void onNewData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onNewData(adapter, data);
-        if ( mEventListener !=null){
-            mEventListener.onNewData(data);
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onNewData(data);
         }
     }
 
     private void onInitData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onInitData(adapter, data);
-        if ( mEventListener !=null){
-            mEventListener.onInitData(data);
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onInitData(data);
         }
     }
 
     private void onNoMoreData() {
-        if ( mEventListener !=null){
-            mEventListener.onNoMoreData();
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onNoMoreData();
         }
     }
 
     private void onNoNewData() {
-        if ( mEventListener !=null){
-            mEventListener.onNoNewData();
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onNoNewData();
         }
     }
 
     private void onInitialize() {
-        if ( mEventListener !=null){
-            mEventListener.onInitialize();
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onInitialize();
         }
     }
 
@@ -143,56 +144,17 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
-    public void setEventListener(EventListener<T> eventListener) {
-        this.mEventListener = eventListener;
+    public void addEventListener(EventListener<T> eventListener){
+        mEventListenerList.add(eventListener);
     }
 
-    public interface EventListener<R> {
-        void onFullMoreData(List<R> data);
-        void onPartialMoreData(List<R> data);
-        void onNewData(List<R> data);
-        void onInitData(List<R> data);
+    public interface EventListener<T> {
+        void onFullMoreData(List<T> data);
+        void onPartialMoreData(List<T> data);
+        void onNewData(List<T> data);
+        void onInitData(List<T> data);
         void onNoMoreData();
         void onNoNewData();
         void onInitialize();
     }
-
-    public static class SimpleEventListener<R> implements EventListener<R> {
-
-        @Override
-        public void onFullMoreData(List<R> data) {
-
-        }
-
-        @Override
-        public void onPartialMoreData(List<R> data) {
-
-        }
-
-        @Override
-        public void onNewData(List<R> data) {
-
-        }
-
-        @Override
-        public void onInitData(List<R> data) {
-
-        }
-
-        @Override
-        public void onNoMoreData() {
-
-        }
-
-        @Override
-        public void onNoNewData() {
-
-        }
-
-        @Override
-        public void onInitialize() {
-
-        }
-    }
-
 }

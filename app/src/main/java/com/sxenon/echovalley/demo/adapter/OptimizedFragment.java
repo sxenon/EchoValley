@@ -37,10 +37,11 @@ public class OptimizedFragment extends Fragment {
         SparseArray<RecyclerViewItemViewTypeEntity> entitySparseArray = new SparseArray<>();
         entitySparseArray.put(0,new RecyclerViewItemViewTypeEntity(R.layout.demo_adapter_even_item,EvenViewHolder.class));
         entitySparseArray.put(1,new RecyclerViewItemViewTypeEntity(R.layout.demo_adapter_odd_item,OddViewHolder.class));
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter<String>(entitySparseArray) {
+        RecyclerViewAdapter<String> adapter = new RecyclerViewAdapter<String>(entitySparseArray) {
 
             @Override
             public void onBindViewHolder(@NonNull RecyclerViewViewHolder holder, int position) {
+                //noinspection unchecked
                 holder.onBind(searchEngines[position]);
             }
 
@@ -60,7 +61,7 @@ public class OptimizedFragment extends Fragment {
     private static class OddViewHolder extends RecyclerViewViewHolder<String> {
         private TextView tvOdd;
 
-        public OddViewHolder(@NonNull View itemView,RecyclerViewAdapter adapter) {
+        public OddViewHolder(@NonNull View itemView,RecyclerViewAdapter<String> adapter) {
             super(itemView,adapter);
             tvOdd = itemView.findViewById(R.id.main_odd_text);
         }
@@ -74,7 +75,7 @@ public class OptimizedFragment extends Fragment {
     private static class EvenViewHolder extends RecyclerViewViewHolder<String> {
         private TextView tvEven;
 
-        public EvenViewHolder(@NonNull View itemView,RecyclerViewAdapter adapter) {
+        public EvenViewHolder(@NonNull View itemView,RecyclerViewAdapter<String> adapter) {
             super(itemView,adapter);
             tvEven = itemView.findViewById(R.id.main_even_text);
         }

@@ -30,7 +30,7 @@ import java.util.List;
 
 public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
     private final int mInitPage;
-    private EventListener<T> mOnPullEventListener;
+    private List<EventListener<T>> mEventListenerList;
 
     public PrevAndNextListRefreshStrategy(int initPage) {
         super();
@@ -44,41 +44,41 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
 
 
     private void onNoPrevData(){
-        if ( mOnPullEventListener !=null){
-            mOnPullEventListener.onNoPrevData();
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onNoPrevData();
         }
     }
 
     private void onNoNextData() {
-        if ( mOnPullEventListener !=null){
-            mOnPullEventListener.onNoNextData();
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onNoNextData();
         }
     }
 
     private void onFullNextData(IAdapter<T> adapter, List<T> data) {
         getAdapterDataHandler().onInitData(adapter, data);
-        if ( mOnPullEventListener !=null){
-            mOnPullEventListener.onFullNextData(data);
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onFullNextData(data);
         }
     }
 
     private void onPartialNextData(IAdapter<T> adapter, List<T> data){
         getAdapterDataHandler().onInitData(adapter, data);
-        if ( mOnPullEventListener !=null){
-            mOnPullEventListener.onPartialNextData(data);
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onPartialNextData(data);
         }
     }
 
     private void onPrevData(IAdapter<T> adapter, List<T> data){
         getAdapterDataHandler().onInitData(adapter, data);
-        if ( mOnPullEventListener !=null){
-            mOnPullEventListener.onPrevData(data);
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onPrevData(data);
         }
     }
 
     private void onInitialize() {
-        if ( mOnPullEventListener !=null){
-            mOnPullEventListener.onInitialize();
+        for (EventListener<T> eventListener:mEventListenerList){
+            eventListener.onInitialize();
         }
     }
 
@@ -135,49 +135,16 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
-    public void setEventListener(EventListener<T> eventListener) {
-        this.mOnPullEventListener = eventListener;
+    public void addEventListener(EventListener<T> eventListener){
+        mEventListenerList.add(eventListener);
     }
 
-    public interface EventListener<R>{
-        void onFullNextData(List<R> data);
-        void onPartialNextData(List<R> data);
-        void onPrevData(List<R> data);
+    public interface EventListener<T>{
+        void onFullNextData(List<T> data);
+        void onPartialNextData(List<T> data);
+        void onPrevData(List<T> data);
         void onNoPrevData();
         void onNoNextData();
         void onInitialize();
-    }
-
-    public static class SimpleEventListener<R> implements EventListener<R> {
-
-        @Override
-        public void onFullNextData(List<R> data) {
-
-        }
-
-        @Override
-        public void onPartialNextData(List<R> data) {
-
-        }
-
-        @Override
-        public void onPrevData(List<R> data) {
-
-        }
-
-        @Override
-        public void onNoPrevData() {
-
-        }
-
-        @Override
-        public void onNoNextData() {
-
-        }
-
-        @Override
-        public void onInitialize() {
-
-        }
     }
 }

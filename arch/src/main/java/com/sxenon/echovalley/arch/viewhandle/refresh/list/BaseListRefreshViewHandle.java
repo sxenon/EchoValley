@@ -62,25 +62,6 @@ public abstract class BaseListRefreshViewHandle<T> extends BaseRefreshViewHandle
         }
     }
 
-
-//    public void onListData(List<T> data, int action) {
-//        if ( IRefreshStrategy.PULL_ACTION_DOWN == action ){
-//            endPullingDownAnim();
-//        }else {
-//            endPullingUpAnim();
-//        }
-//        if ( data == null || data.isEmpty()) {
-//            getPullStrategy().onEmptyList(this, getPageInfo(),mAdapter,action);
-//        } else {
-//            onNonEmpty();
-//            if ( data.size()<mDataSizeInFullPage){
-//                getPullStrategy().onPartialList(this, data,mAdapter,getPageInfo(),action);
-//            }else {
-//                getPullStrategy().onFullList(this, data, mAdapter, getPageInfo(),action);
-//            }
-//        }
-//    }
-
     @Override
     public void onError(Throwable throwable) {
         super.onError(throwable);

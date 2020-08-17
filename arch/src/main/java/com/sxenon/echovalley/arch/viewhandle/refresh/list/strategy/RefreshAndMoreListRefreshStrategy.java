@@ -151,42 +151,4 @@ public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrateg
         void onInitialize();
         void onNoData();
     }
-
-    public static class SimpleEventListener<R> implements EventListener<R> {
-
-        @Override
-        public void onFullMoreData(List<R> data) {
-
-        }
-
-        @Override
-        public void onPartialMoreData(List<R> data) {
-
-        }
-
-        @Override
-        public void onInitData(List<R> data) {
-
-        }
-
-        @Override
-        public void onNoMoreData() {
-
-        }
-
-        @Override
-        public void onCanMoreData() {
-
-        }
-
-        @Override
-        public void onNoData() {
-
-        }
-
-        @Override
-        public void onInitialize() {
-
-        }
-    }
 }

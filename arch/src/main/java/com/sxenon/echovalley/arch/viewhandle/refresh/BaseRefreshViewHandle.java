@@ -5,6 +5,9 @@ import android.view.View;
 
 import com.sxenon.echovalley.arch.util.CommonUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Bridge pattern
  */
@@ -21,7 +24,7 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     private View mEmptyView;
     private View mErrorView;
 
-    private EventListener mEventListener;
+    private List<EventListener> mEventListenerList = new ArrayList<>();
 
     /**
      * Constructor
@@ -104,8 +107,8 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     //InstanceState end
 
     //Event start
-    public void setEventListener(EventListener eventListener) {
-        this.mEventListener = eventListener;
+    public void addEventListener(EventListener eventListener){
+        mEventListenerList.add(eventListener);
     }
 
     public interface EventListener {
@@ -124,8 +127,8 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     @Override
     public void onCancel() {
         pageInfo.tempPage = pageInfo.currentPage;
-        if ( mEventListener !=null){
-            mEventListener.onCancel();
+        for (EventListener eventListener:mEventListenerList){
+            eventListener.onCancel();
         }
     }
 
@@ -135,8 +138,8 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
         mError = throwable;
         CommonUtils.setViewVisibility(mEmptyView, View.GONE);
         CommonUtils.setViewVisibility(mErrorView, View.VISIBLE);
-        if ( mEventListener !=null){
-            mEventListener.onError(throwable);
+        for (EventListener eventListener:mEventListenerList){
+            eventListener.onError(throwable);
         }
     }
 
@@ -146,8 +149,8 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
         pageInfo.currentPage = pageInfo.tempPage = -1;
         CommonUtils.setViewVisibility(mErrorView, View.GONE);
         CommonUtils.setViewVisibility(mEmptyView, View.VISIBLE);
-        if ( mEventListener !=null){
-            mEventListener.onEmpty();
+        for (EventListener eventListener:mEventListenerList){
+            eventListener.onEmpty();
         }
     }
     //Event end
