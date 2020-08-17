@@ -21,6 +21,7 @@ import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshStrategy;
 import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
 import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.adapter.IAdapterDataHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,8 @@ import java.util.List;
 
 public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
     private final int mInitPage;
-    private List<EventListener<T>> mEventListenerList;
+    private List<EventListener<T>> mEventListenerList = new ArrayList<>();
+    private OnInitializeListener mOnInitializeListener;
 
     public PrevAndNextListRefreshStrategy(int initPage) {
         super();
@@ -68,8 +70,8 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
     }
 
     private void onInitialize() {
-        for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onInitialize();
+        if (mOnInitializeListener!=null){
+            mOnInitializeListener.onInitialize();
         }
     }
 
@@ -140,6 +142,14 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
+    public void setOnInitializeListener(OnInitializeListener onInitializeListener) {
+        this.mOnInitializeListener = onInitializeListener;
+    }
+
+    public interface OnInitializeListener{
+        void onInitialize();
+    }
+
     public void addEventListener(EventListener<T> eventListener){
         mEventListenerList.add(eventListener);
     }
@@ -150,6 +160,5 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
         void onPrevResult();
         void onNoPrevResult();
         void onNoNextResult();
-        void onInitialize();
     }
 }

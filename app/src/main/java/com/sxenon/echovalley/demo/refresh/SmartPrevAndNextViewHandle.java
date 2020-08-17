@@ -36,11 +36,6 @@ public class SmartPrevAndNextViewHandle<T> extends SmartRefreshViewHandle<T> {
             public void onNoNextResult() {
                 smartRefreshLayout.finishLoadMoreWithNoMoreData();
             }
-
-            @Override
-            public void onInitialize() {
-
-            }
         });
     }
 }

@@ -13,11 +13,6 @@ public class SmartRefreshAndMoreViewHandle<T> extends SmartRefreshViewHandle<T> 
         listStrategy.addEventListener(new RefreshAndMoreListRefreshStrategy.EventListener<T>() {
 
             @Override
-            public void onInitialize() {
-
-            }
-
-            @Override
             public void onInitResult() {
                 smartRefreshLayout.finishRefresh();
             }

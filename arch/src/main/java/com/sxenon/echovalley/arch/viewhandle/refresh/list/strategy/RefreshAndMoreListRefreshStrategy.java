@@ -30,8 +30,8 @@ import java.util.List;
  */
 
 public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
-
     private final List<EventListener<T>> mEventListeners = new ArrayList<>();
+    private OnInitializeListener mOnInitializeListener;
 
     public RefreshAndMoreListRefreshStrategy() {
         super();
@@ -60,8 +60,8 @@ public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrateg
     }
 
     private void onInitialize() {
-        for (EventListener<T> eventListener:mEventListeners){
-            eventListener.onInitialize();
+        if (mOnInitializeListener!=null){
+            mOnInitializeListener.onInitialize();
         }
     }
 
@@ -125,12 +125,19 @@ public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrateg
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
+    public void setOnInitializeListener(OnInitializeListener onInitializeListener) {
+        this.mOnInitializeListener = onInitializeListener;
+    }
+
+    public interface OnInitializeListener{
+        void onInitialize();
+    }
+
     public void addEventListener(EventListener<T> eventListener) {
         mEventListeners.add(eventListener);
     }
 
     public interface EventListener<R>{
-        void onInitialize();
         void onInitResult();
         void onNoMoreResult();
         void onCanMoreResult();

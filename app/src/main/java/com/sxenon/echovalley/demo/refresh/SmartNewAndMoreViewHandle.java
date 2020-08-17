@@ -40,11 +40,6 @@ public class SmartNewAndMoreViewHandle<T> extends SmartRefreshViewHandle<T> {
             public void onNoNewResult() {
                 smartRefreshLayout.finishRefreshWithNoMoreData();
             }
-
-            @Override
-            public void onInitialize() {
-
-            }
         });
     }
 }
