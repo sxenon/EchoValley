@@ -1,6 +1,7 @@
 package com.sxenon.echovalley.demo.refresh;
 
 import android.content.Context;
+import android.view.View;
 
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
@@ -10,8 +11,15 @@ import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.NewAndMoreLis
 import java.util.List;
 
 public class SmartNewAndMoreViewHandle<T> extends SmartRefreshViewHandle<T> {
-    public SmartNewAndMoreViewHandle(Context context, NewAndMoreListRefreshStrategy<T> listStrategy, IAdapter<T> adapter, int dataSizeInFullPage, final SmartRefreshLayout smartRefreshLayout, OnRefreshLoadMoreListener listener) {
-        super(context, listStrategy, adapter, dataSizeInFullPage, smartRefreshLayout, listener);
+    public SmartNewAndMoreViewHandle(Context context,
+                                     NewAndMoreListRefreshStrategy<T> listStrategy,
+                                     IAdapter<T> adapter,
+                                     int dataSizeInFullPage,
+                                     final SmartRefreshLayout smartRefreshLayout,
+                                     OnRefreshLoadMoreListener listener,
+                                     final View emptyView,
+                                     final View errorView) {
+        super(context, listStrategy, adapter, dataSizeInFullPage, smartRefreshLayout, listener,emptyView,errorView);
         listStrategy.addEventListener(new NewAndMoreListRefreshStrategy.EventListener<T>() {
             @Override
             public void onEmptyResult() {

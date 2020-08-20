@@ -1,9 +1,6 @@
 package com.sxenon.echovalley.arch.viewhandle.refresh;
 
 import android.content.Context;
-import android.view.View;
-
-import com.sxenon.echovalley.arch.util.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,36 +18,12 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     private int mStateWhat = RefreshStateWhat.WHAT_UNINITIALIZED;
     private Throwable mError;
 
-    private View mEmptyView;
-    private View mErrorView;
+    private List<CommonEventListener> mCommonEventListenerList = new ArrayList<>();
 
-    private List<EventListener> mEventListenerList = new ArrayList<>();
-
-    /**
-     * Constructor
-     *
-     * @param context          上下文
-     * @param pullStrategy 分页数据填充策略
-     */
     public BaseRefreshViewHandle(Context context, S pullStrategy) {
         mRefreshStrategy = pullStrategy;
         mContext = context;
     }
-
-    //Component start
-    public void setExtraComponents(View emptyView, View exceptionView) {
-        mEmptyView = emptyView;
-        mErrorView = exceptionView;
-
-        CommonUtils.setViewVisibility(mEmptyView, View.GONE);
-        CommonUtils.setViewVisibility(mErrorView, View.GONE);
-    }
-
-    public void resetExtraComponents(View emptyView, View exceptionView) {
-        mEmptyView = emptyView;
-        mErrorView = exceptionView;
-    }
-    //Component end
 
     /**
      * For subclass call,see demo
@@ -107,28 +80,30 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     //InstanceState end
 
     //Event start
-    public void addEventListener(EventListener eventListener){
-        mEventListenerList.add(eventListener);
+    public void addCommonEventListener(CommonEventListener commonEventListener){
+        mCommonEventListenerList.add(commonEventListener);
     }
 
-    public interface EventListener {
+    public interface CommonEventListener {
         void onEmpty();
         void onError(Throwable throwable);
         void onCancel();
+        void onNonEmpty();
     }
 
     @Override
     public void onNonEmpty() {
         mStateWhat = RefreshStateWhat.WHAT_NON_EMPTY;
-        CommonUtils.setViewVisibility(mEmptyView, View.GONE);
-        CommonUtils.setViewVisibility(mErrorView, View.GONE);
+        for (CommonEventListener commonEventListener:mCommonEventListenerList){
+            commonEventListener.onNonEmpty();
+        }
     }
 
     @Override
     public void onCancel() {
         pageInfo.tempPage = pageInfo.currentPage;
-        for (EventListener eventListener:mEventListenerList){
-            eventListener.onCancel();
+        for (CommonEventListener commonEventListener : mCommonEventListenerList){
+            commonEventListener.onCancel();
         }
     }
 
@@ -136,10 +111,8 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     public void onError(Throwable throwable) {
         mStateWhat = RefreshStateWhat.WHAT_EXCEPTION;
         mError = throwable;
-        CommonUtils.setViewVisibility(mEmptyView, View.GONE);
-        CommonUtils.setViewVisibility(mErrorView, View.VISIBLE);
-        for (EventListener eventListener:mEventListenerList){
-            eventListener.onError(throwable);
+        for (CommonEventListener commonEventListener : mCommonEventListenerList){
+            commonEventListener.onError(throwable);
         }
     }
 
@@ -147,23 +120,13 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     public void onEmpty() {
         mStateWhat = RefreshStateWhat.WHAT_EMPTY;
         pageInfo.currentPage = pageInfo.tempPage = -1;
-        CommonUtils.setViewVisibility(mErrorView, View.GONE);
-        CommonUtils.setViewVisibility(mEmptyView, View.VISIBLE);
-        for (EventListener eventListener:mEventListenerList){
-            eventListener.onEmpty();
+        for (CommonEventListener commonEventListener : mCommonEventListenerList){
+            commonEventListener.onEmpty();
         }
     }
     //Event end
 
     //Getter start
-    public View getExceptionView() {
-        return mErrorView;
-    }
-
-    public View getEmptyView() {
-        return mEmptyView;
-    }
-
     public int getStateWhat() {
         return mStateWhat;
     }
