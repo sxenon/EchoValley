@@ -19,9 +19,9 @@ package com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy;
 import com.sxenon.echovalley.arch.adapter.IAdapter;
 import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshStrategy;
 import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
-import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.adapter.IAdapterDataHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,7 +29,7 @@ import java.util.List;
  * Created by Sui on 2017/8/6.
  */
 
-public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
+public class NewAndMoreListRefreshStrategy<T> implements IListRefreshStrategy<T> {
     private List<EventListener<T>> mEventListenerList = new ArrayList<>();
     private OnInitializeListener mOnInitializeListener;
 
@@ -37,31 +37,27 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
         super();
     }
 
-    public NewAndMoreListRefreshStrategy(IAdapterDataHandler<T> adapterStrategy) {
-        super(adapterStrategy);
-    }
-
-    private void onCanMoreResult(){
+    private void onCanMoreResult(List<T> data){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onCanMoreResult();
+            eventListener.onCanMoreResult(data);
         }
     }
 
-    private void onNewResult(){
+    private void onNewResult(List<T> data){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onNewResult();
+            eventListener.onNewResult(data);
         }
     }
 
-    private void onInitResult(){
+    private void onInitResult(List<T> data){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onInitResult();
+            eventListener.onInitResult(data);
         }
     }
 
-    private void onNoMoreResult() {
+    private void onNoMoreResult(List<T> data) {
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onNoMoreResult();
+            eventListener.onNoMoreResult(data);
         }
     }
 
@@ -86,14 +82,14 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     @Override
     public void onPartialList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
-            getAdapterDataHandler().onInitData(adapter, data);
-            onInitResult();
+            adapter.resetAllItems(data);
+            onInitResult(data);
         } else if (IRefreshStrategy.PULL_ACTION_DOWN==action) {//refresh
-            getAdapterDataHandler().onNewData(adapter, data);
-            onNewResult();
+            adapter.addItems(0,data);
+            onNewResult(data);
         } else {
-            getAdapterDataHandler().onMoreData(adapter, data);
-            onNoMoreResult();
+            adapter.addItems(adapter.getItemCount(),data);
+            onNoMoreResult(data);
         }
         pageInfo.currentPage = pageInfo.tempPage;
 
@@ -102,14 +98,14 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
     @Override
     public void onFullList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         if (adapter.getItemCount() == 0) {
-            getAdapterDataHandler().onInitData(adapter, data);
-            onInitResult();
+            adapter.resetAllItems(data);
+            onInitResult(data);
         } else if (IRefreshStrategy.PULL_ACTION_DOWN==action) {//refresh
-            getAdapterDataHandler().onNewData(adapter, data);
-            onNewResult();
+            adapter.addItems(0,data);
+            onNewResult(data);
         } else {
-            getAdapterDataHandler().onMoreData(adapter, data);
-            onCanMoreResult();
+            adapter.addItems(adapter.getItemCount(),data);
+            onCanMoreResult(data);
         }
         pageInfo.currentPage = pageInfo.tempPage;
     }
@@ -123,7 +119,7 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
             if (IRefreshStrategy.PULL_ACTION_DOWN==action){
                 onNoNewResult();
             }else {
-                onNoMoreResult();
+                onNoMoreResult(Collections.<T>emptyList());
             }
         }
     }
@@ -143,7 +139,7 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
 
     @Override
     public void onError(IRefreshViewHandle refreshViewHandle, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
-        getAdapterDataHandler().onError(adapter,throwable);
+        adapter.resetAllItems(null);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
@@ -161,10 +157,10 @@ public class NewAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T>
 
     public interface EventListener<T> {
         void onEmptyResult();
-        void onCanMoreResult();
-        void onNewResult();
-        void onInitResult();
-        void onNoMoreResult();
+        void onCanMoreResult(List<T> data);
+        void onNewResult(List<T> data);
+        void onInitResult(List<T> data);
+        void onNoMoreResult(List<T> data);
         void onNoNewResult();
     }
 }

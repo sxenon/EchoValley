@@ -19,9 +19,9 @@ package com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy;
 
 import com.sxenon.echovalley.arch.adapter.IAdapter;
 import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
-import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.adapter.IAdapterDataHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,7 +29,7 @@ import java.util.List;
  * Created by Sui on 2017/8/6.
  */
 
-public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
+public class RefreshAndMoreListRefreshStrategy<T> implements IListRefreshStrategy<T> {
     private final List<EventListener<T>> mEventListeners = new ArrayList<>();
     private OnInitializeListener mOnInitializeListener;
 
@@ -37,25 +37,21 @@ public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrateg
         super();
     }
 
-    public RefreshAndMoreListRefreshStrategy(IAdapterDataHandler<T> adapterStrategy) {
-        super(adapterStrategy);
-    }
-
-    private void onInitResult(){
+    private void onInitResult(List<T> data){
         for (EventListener<T> eventListener:mEventListeners){
-            eventListener.onInitResult();
+            eventListener.onInitResult(data);
         }
     }
 
-    private void onNoMoreResult() {
+    private void onNoMoreResult(List<T> data) {
         for (EventListener<T> eventListener:mEventListeners){
-            eventListener.onNoMoreResult();
+            eventListener.onNoMoreResult(data);
         }
     }
 
-    private void onCanMoreResult() {
+    private void onCanMoreResult(List<T> data) {
         for (EventListener<T> eventListener:mEventListeners){
-            eventListener.onCanMoreResult();
+            eventListener.onCanMoreResult(data);
         }
     }
 
@@ -88,11 +84,11 @@ public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrateg
     public void onPartialList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
         if (pageInfo.tempPage == 0) {
-            getAdapterDataHandler().onInitData(adapter, data);
-            onInitResult();
+            adapter.resetAllItems(data);
+            onInitResult(data);
         } else {
-            getAdapterDataHandler().onMoreData(adapter, data);
-            onNoMoreResult();
+            adapter.addItems(adapter.getItemCount(),data);
+            onNoMoreResult(data);
         }
     }
 
@@ -100,11 +96,11 @@ public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrateg
     public void onFullList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
         if (pageInfo.tempPage == 0) {
-            getAdapterDataHandler().onInitData(adapter, data);
-            onInitResult();
+            adapter.resetAllItems(data);
+            onInitResult(data);
         }else {
-            getAdapterDataHandler().onMoreData(adapter, data);
-            onCanMoreResult();
+            adapter.addItems(adapter.getItemCount(),data);
+            onCanMoreResult(data);
         }
     }
 
@@ -115,13 +111,13 @@ public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrateg
             refreshViewHandle.onEmpty();
             onEmptyResult();
         }else {
-            onNoMoreResult();
+            onNoMoreResult(Collections.<T>emptyList());
         }
     }
 
     @Override
     public void onError(IRefreshViewHandle refreshViewHandle, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
-        getAdapterDataHandler().onError(adapter, throwable);
+        adapter.resetAllItems(null);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
@@ -137,10 +133,10 @@ public class RefreshAndMoreListRefreshStrategy<T> extends BaseListRefreshStrateg
         mEventListeners.add(eventListener);
     }
 
-    public interface EventListener<R>{
-        void onInitResult();
-        void onNoMoreResult();
-        void onCanMoreResult();
+    public interface EventListener<T>{
+        void onInitResult(List<T> data);
+        void onNoMoreResult(List<T> data);
+        void onCanMoreResult(List<T> data);
         void onEmptyResult();
     }
 }

@@ -19,9 +19,9 @@ package com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy;
 import com.sxenon.echovalley.arch.adapter.IAdapter;
 import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshStrategy;
 import com.sxenon.echovalley.arch.viewhandle.refresh.IRefreshViewHandle;
-import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.adapter.IAdapterDataHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,7 +29,7 @@ import java.util.List;
  * Created by Sui on 2017/8/6.
  */
 
-public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T> {
+public class PrevAndNextListRefreshStrategy<T> implements IListRefreshStrategy<T> {
     private final int mInitPage;
     private List<EventListener<T>> mEventListenerList = new ArrayList<>();
     private OnInitializeListener mOnInitializeListener;
@@ -39,33 +39,27 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
         mInitPage = initPage;
     }
 
-    public PrevAndNextListRefreshStrategy(IAdapterDataHandler<T> adapterStrategy, int initPage) {
-        super(adapterStrategy);
-        mInitPage = initPage;
-    }
-
-
     private void onNoPrevResult(){
         for (EventListener<T> eventListener:mEventListenerList){
             eventListener.onNoPrevResult();
         }
     }
 
-    private void onNoNextResult() {
+    private void onNoNextResult(List<T> data) {
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onNoNextResult();
+            eventListener.onNoNextResult(data);
         }
     }
 
-    private void onCanNextResult(){
+    private void onCanNextResult(List<T> data){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onCanNextResult();
+            eventListener.onCanNextResult(data);
         }
     }
 
-    private void onPrevResult(){
+    private void onPrevResult(List<T> data){
         for (EventListener<T> eventListener:mEventListenerList){
-            eventListener.onPrevResult();
+            eventListener.onPrevResult(data);
         }
     }
 
@@ -84,11 +78,11 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
     @Override
     public void onPartialList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
-        getAdapterDataHandler().onInitData(adapter, data);
+        adapter.resetAllItems(data);
         if (IRefreshStrategy.PULL_ACTION_DOWN == refreshViewHandle.getPullAction()){
-            onPrevResult();
+            onPrevResult(data);
         }else {
-            onNoNextResult();
+            onNoNextResult(data);
         }
 
     }
@@ -96,11 +90,11 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
     @Override
     public void onFullList(IRefreshViewHandle refreshViewHandle, List<T> data, IAdapter<T> adapter, PageInfo pageInfo, int action) {
         pageInfo.currentPage = pageInfo.tempPage;
-        getAdapterDataHandler().onInitData(adapter, data);
+        adapter.resetAllItems(data);
         if ( IRefreshStrategy.PULL_ACTION_UP== refreshViewHandle.getPullAction()){
-            onCanNextResult();
+            onCanNextResult(data);
         }else {
-            onPrevResult();
+            onPrevResult(data);
         }
     }
 
@@ -111,7 +105,7 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
             refreshViewHandle.onEmpty();
             onEmptyResult();
         } else {
-            onNoNextResult();
+            onNoNextResult(Collections.<T>emptyList());
         }
     }
 
@@ -138,7 +132,7 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
 
     @Override
     public void onError(IRefreshViewHandle refreshViewHandle, Throwable throwable, IAdapter<T> adapter, PageInfo pageInfo, int action) {
-        getAdapterDataHandler().onError(adapter, throwable);
+        adapter.resetAllItems(null);
         pageInfo.currentPage = pageInfo.tempPage = -1;
     }
 
@@ -156,9 +150,9 @@ public class PrevAndNextListRefreshStrategy<T> extends BaseListRefreshStrategy<T
 
     public interface EventListener<T>{
         void onEmptyResult();
-        void onCanNextResult();
-        void onPrevResult();
+        void onCanNextResult(List<T> data);
+        void onPrevResult(List<T> data);
         void onNoPrevResult();
-        void onNoNextResult();
+        void onNoNextResult(List<T> data);
     }
 }

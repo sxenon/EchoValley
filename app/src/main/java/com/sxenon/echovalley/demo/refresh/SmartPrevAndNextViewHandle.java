@@ -7,6 +7,8 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.sxenon.echovalley.arch.adapter.IAdapter;
 import com.sxenon.echovalley.arch.viewhandle.refresh.list.strategy.PrevAndNextListRefreshStrategy;
 
+import java.util.List;
+
 public class SmartPrevAndNextViewHandle<T> extends SmartRefreshViewHandle<T> {
 
     public SmartPrevAndNextViewHandle(Context context, PrevAndNextListRefreshStrategy<T> listStrategy, IAdapter<T> adapter, int dataSizeInFullPage, final SmartRefreshLayout smartRefreshLayout, OnRefreshLoadMoreListener listener) {
@@ -18,12 +20,12 @@ public class SmartPrevAndNextViewHandle<T> extends SmartRefreshViewHandle<T> {
             }
 
             @Override
-            public void onCanNextResult() {
+            public void onCanNextResult(List<T> data) {
                 smartRefreshLayout.finishLoadMore();
             }
 
             @Override
-            public void onPrevResult() {
+            public void onPrevResult(List<T> data) {
                 smartRefreshLayout.finishRefresh();
             }
 
@@ -33,7 +35,7 @@ public class SmartPrevAndNextViewHandle<T> extends SmartRefreshViewHandle<T> {
             }
 
             @Override
-            public void onNoNextResult() {
+            public void onNoNextResult(List<T> data) {
                 smartRefreshLayout.finishLoadMoreWithNoMoreData();
             }
         });

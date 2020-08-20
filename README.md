@@ -77,7 +77,7 @@ public interface IRefreshViewHandle extends IViewHandle {
 
     int getPullAction();
 }
-对应关系
+对应关系(理想状态下)
 Abstraction
 BaseListRefreshViewHandle
 
@@ -100,7 +100,7 @@ IRefreshLayout //刷新控件
 但是，我们可以退而求其次，我们并不需要对所有的刷新控件去实现我们的功能，但可以给出一套思路。
 因为，在我们的项目中，用到刷新控件非常有限，通常只有一个。
 
-接下来的事情就变得简单了(以SmartRefreshLayout为例)
+退而求其次，接下来的事情就变得简单了(以SmartRefreshLayout为例)
 RefinedAbstraction
 SmartRefreshViewHandle
 
