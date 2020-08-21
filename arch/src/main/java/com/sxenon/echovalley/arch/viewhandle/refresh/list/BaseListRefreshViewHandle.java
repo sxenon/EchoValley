@@ -72,10 +72,4 @@ public abstract class BaseListRefreshViewHandle<T> extends BaseRefreshViewHandle
     public final List<T> getData() {
         return mAdapter.getValues();
     }
-
-    @Override
-    public final void restoreData(Object data) {
-        //noinspection unchecked
-        onListData((List<T>) data);
-    }
 }

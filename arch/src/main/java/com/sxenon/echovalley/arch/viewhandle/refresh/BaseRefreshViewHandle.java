@@ -15,9 +15,6 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     private final S mRefreshStrategy;
     private final Context mContext;
 
-    private int mStateWhat = RefreshStateWhat.WHAT_UNINITIALIZED;
-    private Throwable mError;
-
     private List<CommonEventListener> mCommonEventListenerList = new ArrayList<>();
 
     public BaseRefreshViewHandle(Context context, S pullStrategy) {
@@ -43,42 +40,6 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
 
     //Action end
 
-    //InstanceState start
-    public InstanceState getCurrentInstanceState() {
-        InstanceState instanceState = new InstanceState();
-        instanceState.what = mStateWhat;
-        instanceState.page = pageInfo.currentPage;
-
-        if (instanceState.what == RefreshStateWhat.WHAT_EXCEPTION) {
-            instanceState.obj = mError;
-        } else {
-            instanceState.obj = getData();
-        }
-        return instanceState;
-    }
-
-    public void restoreInstanceState(InstanceState savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-        pageInfo.currentPage = pageInfo.tempPage = savedInstanceState.page;
-        mStateWhat = savedInstanceState.what;
-        switch (savedInstanceState.what) {
-            case RefreshStateWhat.WHAT_EMPTY:
-                onEmpty();
-                break;
-            case RefreshStateWhat.WHAT_EXCEPTION:
-                onError((Throwable) savedInstanceState.obj);
-                break;
-            case RefreshStateWhat.WHAT_UNINITIALIZED:
-                break;
-            case RefreshStateWhat.WHAT_NON_EMPTY:
-                restoreData(savedInstanceState.obj);
-                break;
-        }
-    }
-    //InstanceState end
-
     //Event start
     public void addCommonEventListener(CommonEventListener commonEventListener){
         mCommonEventListenerList.add(commonEventListener);
@@ -93,7 +54,6 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
 
     @Override
     public void onNonEmpty() {
-        mStateWhat = RefreshStateWhat.WHAT_NON_EMPTY;
         for (CommonEventListener commonEventListener:mCommonEventListenerList){
             commonEventListener.onNonEmpty();
         }
@@ -109,8 +69,6 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
 
     @Override
     public void onError(Throwable throwable) {
-        mStateWhat = RefreshStateWhat.WHAT_EXCEPTION;
-        mError = throwable;
         for (CommonEventListener commonEventListener : mCommonEventListenerList){
             commonEventListener.onError(throwable);
         }
@@ -118,7 +76,6 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
 
     @Override
     public void onEmpty() {
-        mStateWhat = RefreshStateWhat.WHAT_EMPTY;
         pageInfo.currentPage = pageInfo.tempPage = -1;
         for (CommonEventListener commonEventListener : mCommonEventListenerList){
             commonEventListener.onEmpty();
@@ -127,9 +84,6 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     //Event end
 
     //Getter start
-    public int getStateWhat() {
-        return mStateWhat;
-    }
 
     @Override
     public Context getContext() {
@@ -141,10 +95,6 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
     }
 
     public abstract Object getData();
-    //Getter end
-
-    //Setter start
-    public abstract void restoreData(Object data);
 
     public int getCurrentPageCount() {
         return pageInfo.currentPage;
@@ -161,5 +111,5 @@ public abstract class BaseRefreshViewHandle<S extends IRefreshStrategy> implemen
         return mPullAction;
     }
 
-    //Setter end
+    //Getter end
 }

@@ -42,13 +42,6 @@ public abstract class BaseSingleRefreshViewHandle<T> extends BaseRefreshViewHand
     }
 
     @Override
-    public final void restoreData(Object data) {
-        //noinspection unchecked
-        mData = (T) data;
-        onSingleData(mData);
-    }
-
-    @Override
     public void onSingleData(T data) {
         mData = data;
         if ( data == null) {
